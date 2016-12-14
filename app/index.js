@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import Search from './screens/Search';
 import {
   AppRegistry,
   StyleSheet,
   Text,
+  TouchableHighlight,
   View
 } from 'react-native';
 
@@ -16,6 +18,8 @@ export default class BiggestSplash extends Component {
         <Text style={styles.text}>
           An app to rate photographers in Unsplash.
         </Text>
+        <Search 
+        />
       </View>
     );
   }

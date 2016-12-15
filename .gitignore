@@ -42,3 +42,5 @@ android/app/libs
 *.keystore
 
 secretkey.js
+
+auth0-credentials.js

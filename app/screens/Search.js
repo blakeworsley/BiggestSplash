@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-const { secretkey } = require('../../secretkey');
+const { secretkeyBlake, secretkeyKirsten } = require('../../secretkey');
 import {
   StyleSheet,
   Text,
@@ -22,7 +22,7 @@ export default class Search extends Component {
   }
 
   fetchPhotographerInfo() {
-    let url = `https://api.unsplash.com/photos/random?query=${this.state.search}&${secretkey}`
+    let url = `https://api.unsplash.com/photos/random?query=${this.state.search}&${secretkeyKirsten}`
     fetch(url, {method: 'GET'})
       .then((response) => response.json())
       .then((responseData) => {

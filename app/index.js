@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Search from './screens/Search';
+import Login from './screens/Login';
 import {
   AppRegistry,
   StyleSheet,
@@ -18,8 +19,9 @@ export default class BiggestSplash extends Component {
         <Text style={styles.text}>
           An app to rate photographers in Unsplash.
         </Text>
-        <Search 
+        <Search
         />
+        <Login />
       </View>
     );
   }

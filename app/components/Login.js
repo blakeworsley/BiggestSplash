@@ -12,23 +12,27 @@ const credentials = require('../../auth0-credentials');
 const lock = new Auth0Lock(credentials);
 
 export default class Login extends Component{
-  constructor () {
-   super()
- }
+  constructor (props) {
+    super(props);
+  }
 
- onLogin() {
-   lock.show({
-   }, (error, profile, token) => {
-     if (error) {
-       console.log(error);
-       return;
-     }
-     this.props.navigator.push({
-       component: Search,
-       title: 'Search for photographers',
-     })
-   })
- }
+  onLogin() {
+    const { user } = this.props;
+
+    lock.show({
+      }, (error, profile, token) => {
+        if (error) {
+          console.log(error);
+          return;
+        }
+        user(profile);
+        this.props.navigator.push({
+          component: Search,
+          title: 'Search for photographers',
+          token: token
+        });
+      });
+    }
 
   render() {
     return (

@@ -5,7 +5,6 @@ import {
   TouchableHighlight,
   TextInput,
   View,
-  AlertIOS
 } from 'react-native';
 
 export default class Search extends Component {
@@ -13,8 +12,11 @@ export default class Search extends Component {
     super();
     this.state = {
       search: '',
+      photographer: '',
+      photos: '',
       likes: '',
-      downloads: ''
+      downloads: '',
+      photographerPortfolio: ''
     }
   }
 
@@ -23,9 +25,16 @@ export default class Search extends Component {
     fetch(url, {method: 'GET'})
       .then((response) => response.json())
       .then((responseData) => {
-        this.likes = responseData.user.total_likes
-        this.downloads = responseData.downloads
-        console.log(this.likes, this.downloads);
+        this.setState({
+          photographer: responseData.user.name,
+          photos: responseData.user.total_photos,
+          likes: responseData.user.total_likes,
+          downloads: responseData.downloads,
+          photographerPortfolio: responseData.links.html
+        })
+      })
+      .catch((error) => {
+        console.log(erros);
       })
     .done();
   }
@@ -46,6 +55,13 @@ export default class Search extends Component {
         >
           <Text>Submit</Text>
         </TouchableHighlight>
+        <View>
+          <Text>Photographer: {this.state.photographer}</Text>
+          <Text>Total Photos: {this.state.photos}</Text>
+          <Text>Total Likes: {this.state.likes}</Text>
+          <Text>Total Downloads: {this.state.downloads}</Text>
+          <Text>Unsplash Portfolio: {this.state.photographerPortfolio}</Text>
+        </View>
       </View>
     );
   }

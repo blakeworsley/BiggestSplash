@@ -6,9 +6,12 @@ import {
   TouchableHighlight,
   TextInput,
   View,
+  ScrollView,
 } from 'react-native';
 
-export default class Search extends Component {
+import photographersContainer from '../containers/photographersContainer';
+
+class Search extends Component {
   constructor() {
     super();
     this.state = {
@@ -89,3 +92,5 @@ const styles = StyleSheet.create({
     width: 50
   }
 });
+
+export default photographersContainer(Search);

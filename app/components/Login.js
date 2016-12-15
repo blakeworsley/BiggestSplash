@@ -13,7 +13,7 @@ const lock = new Auth0Lock(credentials);
 
 export default class Login extends Component{
   constructor () {
-   super()
+   super();
  }
 
  onLogin() {
@@ -26,8 +26,8 @@ export default class Login extends Component{
      this.props.navigator.push({
        component: Search,
        title: 'Search for photographers',
-     })
-   })
+     });
+   });
  }
 
   render() {

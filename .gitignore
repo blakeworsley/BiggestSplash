@@ -44,3 +44,5 @@ android/app/libs
 secretkey.js
 
 auth0-credentials.js
+
+.vscode

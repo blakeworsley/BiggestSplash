@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+const { secretkey } = require('../../secretkey');
 import {
   StyleSheet,
   Text,
@@ -21,11 +22,11 @@ export default class Search extends Component {
   }
 
   fetchPhotographerInfo() {
-    let url = `https://api.unsplash.com/photos/random?query=${this.state.search}&client_id=f3ff11ed9e9a4de213e05ff00fa5e4f503cdf0b595de8dfd2d59cad26f7efb3f`
-    // let url = `https://api.unsplash.com/photos/?page=1&client_id=f3ff11ed9e9a4de213e05ff00fa5e4f503cdf0b595de8dfd2d59cad26f7efb3f`
+    let url = `https://api.unsplash.com/photos/random?query=${this.state.search}&${secretkey}`
     fetch(url, {method: 'GET'})
       .then((response) => response.json())
       .then((responseData) => {
+        console.log(responseData);
         this.setState({
           photographer: responseData.user.name,
           photos: responseData.user.total_photos,

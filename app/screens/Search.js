@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 export default class Search extends Component {
-  constructor(){
+  constructor() {
     super();
     this.state = {
       search: '',
@@ -20,8 +20,9 @@ export default class Search extends Component {
     }
   }
 
-  fetchPhotographerInfo () {
+  fetchPhotographerInfo() {
     let url = `https://api.unsplash.com/photos/random?query=${this.state.search}&client_id=f3ff11ed9e9a4de213e05ff00fa5e4f503cdf0b595de8dfd2d59cad26f7efb3f`
+    // let url = `https://api.unsplash.com/photos/?page=1&client_id=f3ff11ed9e9a4de213e05ff00fa5e4f503cdf0b595de8dfd2d59cad26f7efb3f`
     fetch(url, {method: 'GET'})
       .then((response) => response.json())
       .then((responseData) => {
@@ -34,7 +35,7 @@ export default class Search extends Component {
         })
       })
       .catch((error) => {
-        console.log(erros);
+        console.log(error);
       })
     .done();
   }

@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   TouchableHighlight,
 } from 'react-native';
 
@@ -26,18 +25,17 @@ export default class Login extends Component{
      }
      this.props.navigator.push({
        component: Search,
-       title: 'Search for books',
-       passProps: {
-         profile: profile,
-         token: token
-       }
+       title: 'Search for photographers',
      })
    })
  }
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
+        <Text style={styles.title}>
+          Biggest Splash
+        </Text>
         <TouchableHighlight
           style={styles.loginButton}
           underlayColor='#949494'
@@ -50,6 +48,17 @@ export default class Login extends Component{
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  title: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
   loginButton: {
     width: 50,
     height: 20,

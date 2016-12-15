@@ -13,7 +13,8 @@ import Search from './Search';
 const routes = [
   { component: Login, title: 'Login to view photographers' },
   { component: Search, title: 'Search for most popular photo' },
-]
+  // { component: Profile, title: 'Profile' }
+];
 
 export default class App extends Component {
   constructor(props) {

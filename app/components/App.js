@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Navigator
+  Navigator,
+  Text,
+  TouchableHighlight
 } from 'react-native';
 
 import Login from './Login';
@@ -26,6 +28,41 @@ export default class App extends Component {
             <RouteComponent {...route} navigator={navigator} />
           )
         }}
+        configureScene={(route) => {
+          return Navigator.SceneConfigs.FloatFromRight;
+        }}
+        navigationBar={
+          <Navigator.NavigationBar
+            style={ styles.nav }
+            routeMapper={
+              {
+                LeftButton(route, navigator, index, navState) {
+                  if(index === 2) {
+                    return (
+                      <TouchableHighlight onPress={() => navigator.pop()}>
+                        <Text style={styles.prevButton}>Back</Text>
+                      </TouchableHighlight>
+                    )
+                  }
+                  else { return null }
+                },
+
+                RightButton(route, navigator, index, navState) {
+                  if(index === 1) {
+                    return (
+                      <TouchableHighlight onPress={() => navigator.push(routes[index + 1])}>
+                        <Text style={styles.nextButton}>Profile</Text>
+                      </TouchableHighlight>
+                    )
+                  }
+                  else { return null }
+                },
+                Title(route, navigator, index, navState) {
+                }
+              }
+            }
+          />
+        }
       />
     );
   }

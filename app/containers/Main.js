@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
-// import { createStore } from 'redux';
-// import { Provider } from 'react-redux';
-import App from '../components/App';
-
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
-import reducers from '../reducers/photographers'
+import photographers from '../reducers/photographers';
+import profile from '../reducers/profile';
+import App from '../components/App';
 
-const store = createStore(reducers);
+let combinedReducers = combineReducers({ photographers, profile });
 
-
-// const store = createStore();
+const store = createStore(combinedReducers);
 
 export default class Main extends Component {
   render() {

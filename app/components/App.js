@@ -1,38 +1,32 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Text,
-  View,
-  Navigator,
-  TouchableHighlight
+  Navigator
 } from 'react-native';
 
 import Login from './Login';
 import Search from './Search';
+import Profile from './Profile';
 
 const routes = [
   { component: Login, title: 'Login to view photographers' },
   { component: Search, title: 'Search for most popular photo' },
-  // { component: Profile, title: 'Profile' }
+  { component: Profile, title: 'Profile' }
 ];
 
 export default class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
-      return (
-        <Navigator style={styles.navigator}
-          initialRoute={routes[0]}
-          initialRouteStack={routes}
-          renderScene={(route, navigator) => {
-            let RouteComponent = route.component;
-            return (
-              <RouteComponent {...route} navigator={navigator} />
-            )
-          }}
-        />
+    return (
+      <Navigator style={styles.navigator}
+        initialRoute={routes[0]}
+        initialRouteStack={routes}
+        renderScene={(route, navigator) => {
+          let RouteComponent = route.component;
+          return (
+            <RouteComponent {...route} navigator={navigator} />
+          )
+        }}
+      />
     );
   }
 }

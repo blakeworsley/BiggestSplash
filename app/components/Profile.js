@@ -21,7 +21,6 @@ const Profile = ({ user }) => {
   return (null)
 }
 
-export default userContainer(Profile)
 
 const styles = StyleSheet.create({
   container: {
@@ -48,3 +47,5 @@ const styles = StyleSheet.create({
     borderRadius: 75,
   }
 });
+
+export default profileContainer(Profile)

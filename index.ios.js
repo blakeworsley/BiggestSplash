@@ -1,5 +1,5 @@
 'use strict';
 import { AppRegistry } from 'react-native';
-import index from './app/containers/index';
+import Main from './app/containers/Main';
 
-AppRegistry.registerComponent('BiggestSplash', () => index);
+AppRegistry.registerComponent('BiggestSplash', () => Main);

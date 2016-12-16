@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Auth0Lock from 'react-native-lock';
 import Search from './Search';
+import Profile from './Profile';
+import profileContainer from '../containers/profileContainer';
 import {
   StyleSheet,
   Text,
@@ -11,21 +13,20 @@ import {
 const credentials = require('../../auth0-credentials');
 const lock = new Auth0Lock(credentials);
 
-export default class Login extends Component{
+class Login extends Component{
   constructor (props) {
     super(props);
   }
 
   onLogin() {
-    const { user } = this.props;
+    const { getProfile } = this.props;
 
-    lock.show({
-      }, (error, profile, token) => {
+    lock.show({}, (error, profile, token) => {
         if (error) {
           console.log(error);
           return;
         }
-        user(profile);
+        getProfile(profile);
         this.props.navigator.push({
           component: Search,
           title: 'Search for photographers',
@@ -33,7 +34,6 @@ export default class Login extends Component{
         });
       });
     }
-
 
   render() {
     return (
@@ -70,3 +70,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#5156cc',
   }
 });
+
+export default profileContainer(Login);

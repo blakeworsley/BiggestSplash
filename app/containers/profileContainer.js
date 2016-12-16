@@ -1,15 +1,15 @@
 'use strict';
 import { connect } from 'react-redux';
-import { actionCreators } from '../actions/userActions';
+import { actionCreators } from '../actions/profileActions';
 
 const mapStateToProps = (state) => {
-  return { user: state.user };
+  return { user: state.profile };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUser: (user) => {
-       dispatch(actionCreators.getUser(user));
+    getProfile: (user) => {
+       dispatch(actionCreators.getProfile(user));
      }
   };
 };

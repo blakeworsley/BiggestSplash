@@ -4,21 +4,41 @@ import {
   Text,
   View,
   Image,
+  TouchableHighlight
 } from 'react-native';
 
 import profileContainer from '../containers/profileContainer';
+import Login from './Login';
 
-const Profile = ({ user }) => {
-  if(user) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>{user.name}</Text>
-        <Text style={styles.info}>{user.email}</Text>
-        <Image style={styles.avatar} source={{uri: user.picture}} />
-      </View>
-    )
+class Profile extends Component {
+  constructor(props) {
+    super(props);
   }
-  return (null)
+
+  logout() {
+    this.props.navigator.pop({
+      component: Login
+    });
+  }
+
+  render() {
+    const { user } = this.props;
+    if(user) {
+      return (
+        <View style={styles.container}>
+          <Image style={styles.avatar} source={{uri: user.picture}} />
+          <Text style={styles.title}>{user.name}</Text>
+          <Text style={styles.info}>{user.email}</Text>
+          <TouchableHighlight
+            style={styles.logout}
+            onPress={() => this.logout()}>
+            <Text>Logout</Text>
+          </TouchableHighlight>
+        </View>
+      )
+    }
+    return (null)
+  }
 }
 
 
@@ -32,7 +52,7 @@ const styles = StyleSheet.create({
     paddingTop: 200,
   },
   title: {
-    fontSize: 42,
+    fontSize: 30,
     margin: 20,
     fontWeight: '300',
   },
@@ -42,9 +62,14 @@ const styles = StyleSheet.create({
     fontWeight: '100',
   },
   avatar: {
-    height: 150,
-    width: 150,
-    borderRadius: 75,
+    height: 100,
+    width: 100,
+    borderRadius: 50,
+  },
+  logout: {
+    backgroundColor: 'blue',
+    height: 20,
+    width: 50,
   }
 });
 

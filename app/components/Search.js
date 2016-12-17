@@ -21,22 +21,22 @@ class Search extends Component {
       likes: '',
       downloads: '',
       photographerPortfolio: ''
-    }
+    };
   }
 
   fetchPhotographerInfo() {
-    let url = `https://api.unsplash.com/photos/random?query=${this.state.search}&${secretkeyKirsten}`
+    let url = `https://api.unsplash.com/search/photos?page=1&query=${this.state.search}&${secretkeyKirsten}`
     fetch(url, {method: 'GET'})
       .then((response) => response.json())
       .then((responseData) => {
-        console.log(responseData);
+        console.log(responseData.results[0]);
         this.setState({
           photographer: responseData.user.name,
           photos: responseData.user.total_photos,
           likes: responseData.user.total_likes,
           downloads: responseData.downloads,
           photographerPortfolio: responseData.links.html
-        })
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
     height: 30,
     textAlign: 'center',
     margin: 20,
+    marginTop: 80,
     backgroundColor: '#eee',
     padding: 5
   },

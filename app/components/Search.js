@@ -49,13 +49,15 @@ class Search extends Component {
         });
         getPhotographers(arr);
         console.log(arr, getPhotographers);
-        Alert.alert(
-          'Request Successful',
-          `There are ${arr.length} photos in ${this.state.search}`,
-          [
-            { text: 'OK' },
-          ]
-        );
+        if(arr.length > 0) {
+          Alert.alert(
+            'Request Successful',
+            `There are ${arr.length} photos in ${this.state.search}`,
+            [
+              { text: 'OK' },
+            ]
+          );
+        }
       })
       .catch((error) => {
         getPhotographers([]);
@@ -73,7 +75,7 @@ class Search extends Component {
 
   render() {
     const { photographers, user } = this.props;
-    console.log(photographers, user);
+    console.log(photographers);
     if(user) {
       return (
         <View style={styles.container}>
@@ -94,15 +96,17 @@ class Search extends Component {
           <ScrollView>
             { photographers 
               ? photographers.map((photographer, i) => {
-                <View key={i}>
-                  <Text>Photographer: {photographer.name}</Text>
-                  <Text>Total Score: {photographer.score}</Text>
-                  <Text>Total Likes: {photographer.likes}</Text>
-                  <Text>Total Downloads: {photographer.downloads}</Text>
-                  <Text>Username: {photographer.username}</Text>
-                </View>
+                return (
+                  <View key={i}>
+                    <Text>Photographer: {photographer.name}</Text>
+                    <Text>Total Score: {photographer.score}</Text>
+                    <Text>Total Likes: {photographer.likes}</Text>
+                    <Text>Total Downloads: {photographer.downloads}</Text>
+                    <Text>Username: {photographer.username}</Text>
+                  </View>
+                )
               }) 
-              : <Text>No Photographers in this area</Text>
+              : <View><Text>No Photographers in this area</Text></View>
             }
           </ScrollView>
         </View>

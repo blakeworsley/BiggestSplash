@@ -1,8 +1,9 @@
+'use strict';
 import { connect } from 'react-redux';
 import { actionCreators } from '../actions/photographersActions';
 
 const mapStateToProps = (state) => {
-  return { photographers: state.photographers }
+  return { photographers: state.photographers };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -10,7 +11,7 @@ const mapDispatchToProps = (dispatch) => {
     getPhotographers: (photographers) => {
        dispatch(actionCreators.getPhotographers(photographers));
      }
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps);

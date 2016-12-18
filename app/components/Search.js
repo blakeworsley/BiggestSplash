@@ -7,9 +7,10 @@ import {
   TouchableHighlight,
   TextInput,
   View,
-  ScrollView,
+  ListView,
   Alert,
 } from 'react-native';
+import Photographer from './Photographer';
 
 import photographersContainer from '../containers/photographersContainer';
 import profileContainer from '../containers/profileContainer';
@@ -24,9 +25,22 @@ class Search extends Component {
       likes: '',
       downloads: '',
       photographerPortfolio: '',
-      photographers: ''
+      photographers: '',
+      dataSource: new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
     };
   }
+
+  toPhotographerProfile() {
+    debugger;
+    const photographer = this.props.photographers[this.id];
+    this.props.navigator.push({
+       component: Photographer, title: 'Photographer', photographer: photographer
+    });
+  }
+
+    // this.props.navigator.pop({
+    //   component: Search
+    // });
 
   fetchPhotographerInfo() {
     const { getPhotographers } = this.props;
@@ -47,8 +61,11 @@ class Search extends Component {
             downloads: downloads
           });
         });
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(arr),
+          loaded: true
+        })
         getPhotographers(arr);
-        console.log(arr, getPhotographers);
         if(arr.length > 0) {
           Alert.alert(
             'Request Successful',
@@ -75,7 +92,6 @@ class Search extends Component {
 
   render() {
     const { photographers, user } = this.props;
-    console.log(photographers);
     if(user) {
       return (
         <View style={styles.container}>
@@ -93,22 +109,29 @@ class Search extends Component {
             <Text>Submit</Text>
           </TouchableHighlight>
 
-          <ScrollView>
-            { photographers 
+          <ListView dataSource={this.state.dataSource}
+            renderRow={ (photographers) => {
+              photographers 
               ? photographers.map((photographer, i) => {
                 return (
-                  <View key={i}>
-                    <Text>Photographer: {photographer.name}</Text>
-                    <Text>Total Score: {photographer.score}</Text>
-                    <Text>Total Likes: {photographer.likes}</Text>
-                    <Text>Total Downloads: {photographer.downloads}</Text>
-                    <Text>Username: {photographer.username}</Text>
-                  </View>
+                  <TouchableHighlight key={i} id={i} onPress={(id) => {
+                    debugger;
+                    this.toPhotographerProfile();
+                  }}>
+                    <View >
+                      <Text>Photographer: {photographer.name}</Text>
+                      <Text>Total Score: {photographer.score}</Text>
+                      <Text>Total Likes: {photographer.likes}</Text>
+                      <Text>Total Downloads: {photographer.downloads}</Text>
+                      <Text>Username: {photographer.username}</Text>
+                    </View>
+                  </TouchableHighlight>
                 )
               }) 
               : <View><Text>No Photographers in this area</Text></View>
+              }
             }
-          </ScrollView>
+          />
         </View>
       );
     }
@@ -140,3 +163,35 @@ const styles = StyleSheet.create({
 export default photographersContainer(
                 profileContainer(Search)
               )
+
+
+
+
+
+
+          // <ListView dataSource={this.state.dataSource}
+          //   renderRow={ (photographers) => {
+              
+          //   }}
+          
+          
+          // >
+          //   { photographers 
+          //     ? photographers.map((photographer, i) => {
+          //       return (
+          //         <TouchableHighlight key={i} id={i} onPress={(id) => {
+          //           debugger;
+          //           this.toPhotographerProfile();
+          //         }}>
+          //           <View >
+          //             <Text>Photographer: {photographer.name}</Text>
+          //             <Text>Total Score: {photographer.score}</Text>
+          //             <Text>Total Likes: {photographer.likes}</Text>
+          //             <Text>Total Downloads: {photographer.downloads}</Text>
+          //             <Text>Username: {photographer.username}</Text>
+          //           </View>
+          //         </TouchableHighlight>
+          //       )
+          //     }) 
+          //     : <View><Text>No Photographers in this area</Text></View>
+          //   }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 const { secretkeyBlake, secretkeyKirsten } = require('../../secretkey');
+import { connect } from 'react-redux';
 import {
   StyleSheet,
   Text,
@@ -7,13 +8,15 @@ import {
   TextInput,
   View,
   ScrollView,
+  Alert,
 } from 'react-native';
 
 import photographersContainer from '../containers/photographersContainer';
+import profileContainer from '../containers/profileContainer';
 
 class Search extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       search: '',
       photographer: '',
@@ -25,50 +28,65 @@ class Search extends Component {
   }
 
   fetchPhotographerInfo() {
-    let url = `https://api.unsplash.com/search/photos?page=1&query=${this.state.search}&${secretkeyKirsten}`
+    const { getPhotographers } = this.props;
+    let url = `https://api.unsplash.com/search/photos?page=1&query=${this.state.search}&${secretkeyKirsten}`;
     fetch(url, {method: 'GET'})
       .then((response) => response.json())
       .then((responseData) => {
-        console.log(responseData.results[0]);
-        this.setState({
-          photographer: responseData.user.name,
-          photos: responseData.user.total_photos,
-          likes: responseData.user.total_likes,
-          downloads: responseData.downloads,
-          photographerPortfolio: responseData.links.html
-        });
+        console.log(responseData);
+        getPhotographers(responseData.results);
+        debugger
+        Alert.alert(
+          'Request Successful',
+          `There are ${responseData.total} photos in ${this.state.search}`,
+          [
+            { text: 'OK' },
+          ]
+        );
       })
       .catch((error) => {
+        getPhotographers([]);
+        Alert.alert(
+          'Request Failed',
+          'Please try another location',
+          [
+            { text: 'OK' },
+          ]
+        );
         console.log(error);
       })
     .done();
   }
 
   render() {
-    return (
-      <View style={styles.container}>
-        <TextInput
-          style={styles.input}
-          autoCorrect={false}
-          placeholder='Search by Location'
-          onChangeText={ search => this.setState({search}) }
-          value={ this.state.search }
-        />
-        <TouchableHighlight
-          style={styles.submit}
-          onPress={() => {this.fetchPhotographerInfo()}}
-        >
-          <Text>Submit</Text>
-        </TouchableHighlight>
-        <View>
-          <Text>Photographer: {this.state.photographer}</Text>
-          <Text>Total Photos: {this.state.photos}</Text>
-          <Text>Total Likes: {this.state.likes}</Text>
-          <Text>Total Downloads: {this.state.downloads}</Text>
-          <Text>Unsplash Portfolio: {this.state.photographerPortfolio}</Text>
+    const { photographers, user } = this.props;
+    if(user) {
+      return (
+        <View style={styles.container}>
+          <TextInput
+            style={styles.input}
+            autoCorrect={false}
+            placeholder='Search by Location'
+            onChangeText={ search => this.setState({search}) }
+            value={ this.state.search }
+          />
+          <TouchableHighlight
+            style={styles.submit}
+            onPress={() => {this.fetchPhotographerInfo()}}
+          >
+            <Text>Submit</Text>
+          </TouchableHighlight>
+          {/* <View>
+            <Text>Photographer: {this.state.photographer}</Text>
+            <Text>Total Photos: {this.state.photos}</Text>
+            <Text>Total Likes: {this.state.likes}</Text>
+            <Text>Total Downloads: {this.state.downloads}</Text>
+            <Text>Unsplash Portfolio: {this.state.photographerPortfolio}</Text>
+          </View> */}
+          {/* <View>{photographers}</View> */}
         </View>
-      </View>
-    );
+      );
+    }
   }
 }
 
@@ -94,4 +112,6 @@ const styles = StyleSheet.create({
   }
 });
 
-export default photographersContainer(Search);
+export default photographersContainer(
+                profileContainer(Search)
+              )

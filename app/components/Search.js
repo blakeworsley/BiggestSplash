@@ -23,22 +23,35 @@ class Search extends Component {
       photos: '',
       likes: '',
       downloads: '',
-      photographerPortfolio: ''
+      photographerPortfolio: '',
+      photographers: ''
     };
   }
 
   fetchPhotographerInfo() {
     const { getPhotographers } = this.props;
-    let url = `https://api.unsplash.com/search/photos?page=1&query=${this.state.search}&${secretkeyKirsten}`;
+    let arr = [];
+    let url = `https://api.unsplash.com/search/photos?page=1&query=${this.state.search}&${secretkeyKirsten}`
     fetch(url, {method: 'GET'})
       .then((response) => response.json())
       .then((responseData) => {
-        console.log(responseData);
-        getPhotographers(responseData.results);
-        debugger
+        responseData.results.map((i) => {
+          let downloads = i.downloads ? i.downloads : 0
+          let score = (downloads + i.user.total_likes) / i.user.total_photos;          
+          arr.push({
+            score: score,
+            name: i.user.name, 
+            likes: i.user.total_likes, 
+            photos: i.user.total_photos, 
+            username: i.user.username, 
+            downloads: downloads
+          });
+        });
+        getPhotographers(arr);
+        console.log(arr, getPhotographers);
         Alert.alert(
           'Request Successful',
-          `There are ${responseData.total} photos in ${this.state.search}`,
+          `There are ${arr.length} photos in ${this.state.search}`,
           [
             { text: 'OK' },
           ]
@@ -60,6 +73,7 @@ class Search extends Component {
 
   render() {
     const { photographers, user } = this.props;
+    console.log(photographers, user);
     if(user) {
       return (
         <View style={styles.container}>
@@ -76,14 +90,21 @@ class Search extends Component {
           >
             <Text>Submit</Text>
           </TouchableHighlight>
-          {/* <View>
-            <Text>Photographer: {this.state.photographer}</Text>
-            <Text>Total Photos: {this.state.photos}</Text>
-            <Text>Total Likes: {this.state.likes}</Text>
-            <Text>Total Downloads: {this.state.downloads}</Text>
-            <Text>Unsplash Portfolio: {this.state.photographerPortfolio}</Text>
-          </View> */}
-          {/* <View>{photographers}</View> */}
+
+          <ScrollView>
+            { photographers 
+              ? photographers.map((photographer, i) => {
+                <View key={i}>
+                  <Text>Photographer: {photographer.name}</Text>
+                  <Text>Total Score: {photographer.score}</Text>
+                  <Text>Total Likes: {photographer.likes}</Text>
+                  <Text>Total Downloads: {photographer.downloads}</Text>
+                  <Text>Username: {photographer.username}</Text>
+                </View>
+              }) 
+              : <Text>No Photographers in this area</Text>
+            }
+          </ScrollView>
         </View>
       );
     }

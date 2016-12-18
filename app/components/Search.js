@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 const { secretkeyBlake, secretkeyKirsten } = require('../../secretkey');
+import { connect } from 'react-redux';
 import {
   StyleSheet,
   Text,
@@ -7,13 +8,15 @@ import {
   TextInput,
   View,
   ScrollView,
+  Alert,
 } from 'react-native';
 
 import photographersContainer from '../containers/photographersContainer';
+import profileContainer from '../containers/profileContainer';
 
 class Search extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       search: '',
       photographer: '',
@@ -26,6 +29,7 @@ class Search extends Component {
   }
 
   fetchPhotographerInfo() {
+    const { getPhotographers } = this.props;
     let arr = [];
     let url = `https://api.unsplash.com/search/photos?page=1&query=${this.state.search}&${secretkeyKirsten}`
     fetch(url, {method: 'GET'})
@@ -33,7 +37,7 @@ class Search extends Component {
       .then((responseData) => {
         responseData.results.map((i) => {
           let downloads = i.downloads ? i.downloads : 0
-          let score = (downloads + i.user.total_likes) / i.user.total_photos;
+          let score = (downloads + i.user.total_likes) / i.user.total_photos;          
           arr.push({
             score: score,
             name: i.user.name, 
@@ -43,38 +47,67 @@ class Search extends Component {
             downloads: downloads
           });
         });
+        getPhotographers(arr);
+        console.log(arr, getPhotographers);
+        Alert.alert(
+          'Request Successful',
+          `There are ${arr.length} photos in ${this.state.search}`,
+          [
+            { text: 'OK' },
+          ]
+        );
       })
       .catch((error) => {
+        getPhotographers([]);
+        Alert.alert(
+          'Request Failed',
+          'Please try another location',
+          [
+            { text: 'OK' },
+          ]
+        );
         console.log(error);
       })
     .done();
   }
 
   render() {
-    return (
-      <View style={styles.container}>
-        <TextInput
-          style={styles.input}
-          autoCorrect={false}
-          placeholder='Search by Location'
-          onChangeText={ search => this.setState({search}) }
-          value={ this.state.search }
-        />
-        <TouchableHighlight
-          style={styles.submit}
-          onPress={() => {this.fetchPhotographerInfo()}}
-        >
-          <Text>Submit</Text>
-        </TouchableHighlight>
-        <View>
-          <Text>Photographer: {this.state.photographer}</Text>
-          <Text>Total Photos: {this.state.photos}</Text>
-          <Text>Total Likes: {this.state.likes}</Text>
-          <Text>Total Downloads: {this.state.downloads}</Text>
-          <Text>Unsplash Portfolio: {this.state.photographerPortfolio}</Text>
+    const { photographers, user } = this.props;
+    console.log(photographers, user);
+    if(user) {
+      return (
+        <View style={styles.container}>
+          <TextInput
+            style={styles.input}
+            autoCorrect={false}
+            placeholder='Search by Location'
+            onChangeText={ search => this.setState({search}) }
+            value={ this.state.search }
+          />
+          <TouchableHighlight
+            style={styles.submit}
+            onPress={() => {this.fetchPhotographerInfo()}}
+          >
+            <Text>Submit</Text>
+          </TouchableHighlight>
+
+          <ScrollView>
+            { photographers 
+              ? photographers.map((photographer, i) => {
+                <View key={i}>
+                  <Text>Photographer: {photographer.name}</Text>
+                  <Text>Total Score: {photographer.score}</Text>
+                  <Text>Total Likes: {photographer.likes}</Text>
+                  <Text>Total Downloads: {photographer.downloads}</Text>
+                  <Text>Username: {photographer.username}</Text>
+                </View>
+              }) 
+              : <Text>No Photographers in this area</Text>
+            }
+          </ScrollView>
         </View>
-      </View>
-    );
+      );
+    }
   }
 }
 
@@ -100,4 +133,6 @@ const styles = StyleSheet.create({
   }
 });
 
-export default photographersContainer(Search);
+export default photographersContainer(
+                profileContainer(Search)
+              )

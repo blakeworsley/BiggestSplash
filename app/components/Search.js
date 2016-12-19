@@ -9,7 +9,6 @@ import {
   View,
   ScrollView,
   Alert,
-  Animated,
   Image
 } from 'react-native';
 import Photographer from './Photographer';
@@ -20,15 +19,8 @@ import profileContainer from '../containers/profileContainer';
 class Search extends Component {
   constructor(props) {
     super(props);
-    const width = {likes: 0, totalPhotos: 0};
     this.state = {
-      search: '',
-      photographer: '',
-      photos: '',
-      photographerPortfolio: '',
-      photographers: '',
-      likes: new Animated.Value(width.likes),
-      totalPhotos: new Animated.Value(width.totalPhotos)
+      search: ''
     };
   }
 
@@ -77,35 +69,44 @@ class Search extends Component {
     if(user) {
       return (
         <View style={styles.container}>
-          <TextInput
-            style={styles.input}
-            autoCorrect={false}
-            placeholder='Search by Location'
-            onChangeText={ search => this.setState({search}) }
-            value={ this.state.search }
-          />
-          <TouchableHighlight
-            style={styles.submit}
-            onPress={() => {this.fetchPhotographerInfo()}}
-          >
-            <Text>Submit</Text>
-          </TouchableHighlight>
+          <View style={styles.searchArea}>
+            <TextInput
+              style={styles.input}
+              autoCorrect={false}
+              placeholder='Search by Location'
+              onChangeText={ search => this.setState({search}) }
+              value={ this.state.search }
+            />
+            <TouchableHighlight
+              style={styles.submit}
+              onPress={() => {this.fetchPhotographerInfo()}}
+            >
+              <Text>Submit</Text>
+            </TouchableHighlight>
+          </View>
 
-          <ScrollView>
+      <ScrollView style={styles.photographerList}>
             { photographers 
               ? photographers.map((photographer, index) => {
                 return (
-                  <TouchableHighlight key={index} id={index} onPress={() => {
+                  <TouchableHighlight 
+                  key={index} 
+                  id={index} 
+                  onPress={() => {
                     this.toPhotographerProfile(index);
                   }}>
-                    <View >
+                    <View style={styles.photographer}>
                       <Image 
-                        style={{width: 50, height: 50, borderRadius: 25}}
+                        style={styles.img}
                         source={{uri: photographer.user.profile_image.medium }}
                       />
-                      <Text>Photographer: {photographer.user.name}</Text>
-                      <Text>Total Likes: {photographer.user.total_likes}</Text>
-                      <Text>Username: {photographer.user.username}</Text>
+                      <View style={styles.bio}>
+                        <Text style={styles.boldText}>{photographer.user.name}</Text>
+                        <Text style={styles.text}>Likes: {photographer.user.total_likes}</Text>
+                      </View>
+                      <View style={styles.rankView}>
+                        <Text style={styles.rankText}>1</Text>
+                      </View>
                     </View>
                   </TouchableHighlight>
                 )
@@ -120,24 +121,78 @@ class Search extends Component {
 }
 
 const styles = StyleSheet.create({
-  input: {
-    width: 200,
-    height: 30,
-    textAlign: 'center',
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#E9E9E9',
+  },
+  img: {
     margin: 20,
-    marginTop: 80,
-    backgroundColor: '#eee',
-    padding: 5
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+  },
+  searchArea: {  
+    flexDirection: 'row',
+    marginTop: 65,
+    marginBottom: 20,
+  },
+  input: {
+    flex: 2,
+    height: 40,
+    textAlign: 'center',
+    marginLeft: 10,
+    marginRight: 5,
+    padding: 5,
+    backgroundColor: '#F8F8F8',
+    borderRadius: 10,
+  },
+  photographerList: {
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  photographer: {
+    backgroundColor: '#F9F9F9',    
+    flexDirection: 'row',
+    marginBottom: 2,
+    marginTop: 2,
+    borderRadius: 10,
+  },
+  bio: {
+    margin: 10,
+    padding: 10,
+  },
+  boldText: {
+    fontFamily: 'Helvetica-Bold',
+    fontSize: 16,
+    color: '#707070',
+    marginBottom: 5,
   },
   text: {
-    textAlign: 'center',
-    color: '#111',
-    marginBottom: 5
+    fontFamily: 'Helvetica-Light',
+    fontSize: 14,
+    color: '#707070',
+  },
+  rankView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  rankText: {
+    fontFamily: 'Helvetica-Bold',
+    fontSize: 30,
+    color: '#888899',
   },
   submit: {
-    backgroundColor: 'green',
-    height: 20,
-    width: 50
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+    marginLeft: 5,
+    height: 40,
+    padding: 5,
+    backgroundColor: '#888',
+    borderRadius: 10,
   }
 });
 

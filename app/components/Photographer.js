@@ -7,10 +7,11 @@ import {
 
 class Photographer extends Component {
   render() {
+    console.log(this.props.photographer)
     return (
-      <View style={styles.container} key={i}>
+      <View style={styles.container}>
         <Text>Photographer: </Text>
-
+        <Text>{this.props.photographer.name} </Text>
       </View>
     )
   }

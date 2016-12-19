@@ -7,7 +7,7 @@ import {
   TouchableHighlight,
   TextInput,
   View,
-  ListView,
+  ScrollView,
   Alert,
 } from 'react-native';
 import Photographer from './Photographer';
@@ -25,22 +25,16 @@ class Search extends Component {
       likes: '',
       downloads: '',
       photographerPortfolio: '',
-      photographers: '',
-      dataSource: new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
+      photographers: ''
     };
   }
 
-  toPhotographerProfile() {
-    debugger;
-    const photographer = this.props.photographers[this.id];
+  toPhotographerProfile(index) {
+    const photographer = this.props.photographers[index];
     this.props.navigator.push({
        component: Photographer, title: 'Photographer', photographer: photographer
     });
   }
-
-    // this.props.navigator.pop({
-    //   component: Search
-    // });
 
   fetchPhotographerInfo() {
     const { getPhotographers } = this.props;
@@ -61,10 +55,6 @@ class Search extends Component {
             downloads: downloads
           });
         });
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(arr),
-          loaded: true
-        })
         getPhotographers(arr);
         if(arr.length > 0) {
           Alert.alert(
@@ -109,14 +99,12 @@ class Search extends Component {
             <Text>Submit</Text>
           </TouchableHighlight>
 
-          <ListView dataSource={this.state.dataSource}
-            renderRow={ (photographers) => {
-              photographers 
-              ? photographers.map((photographer, i) => {
+          <ScrollView>
+            { photographers 
+              ? photographers.map((photographer, index) => {
                 return (
-                  <TouchableHighlight key={i} id={i} onPress={(id) => {
-                    debugger;
-                    this.toPhotographerProfile();
+                  <TouchableHighlight key={index} id={index} onPress={() => {
+                    this.toPhotographerProfile(index);
                   }}>
                     <View >
                       <Text>Photographer: {photographer.name}</Text>
@@ -129,9 +117,8 @@ class Search extends Component {
                 )
               }) 
               : <View><Text>No Photographers in this area</Text></View>
-              }
             }
-          />
+          </ScrollView>
         </View>
       );
     }
@@ -163,35 +150,3 @@ const styles = StyleSheet.create({
 export default photographersContainer(
                 profileContainer(Search)
               )
-
-
-
-
-
-
-          // <ListView dataSource={this.state.dataSource}
-          //   renderRow={ (photographers) => {
-              
-          //   }}
-          
-          
-          // >
-          //   { photographers 
-          //     ? photographers.map((photographer, i) => {
-          //       return (
-          //         <TouchableHighlight key={i} id={i} onPress={(id) => {
-          //           debugger;
-          //           this.toPhotographerProfile();
-          //         }}>
-          //           <View >
-          //             <Text>Photographer: {photographer.name}</Text>
-          //             <Text>Total Score: {photographer.score}</Text>
-          //             <Text>Total Likes: {photographer.likes}</Text>
-          //             <Text>Total Downloads: {photographer.downloads}</Text>
-          //             <Text>Username: {photographer.username}</Text>
-          //           </View>
-          //         </TouchableHighlight>
-          //       )
-          //     }) 
-          //     : <View><Text>No Photographers in this area</Text></View>
-          //   }

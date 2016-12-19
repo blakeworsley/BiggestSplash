@@ -23,7 +23,7 @@ class Photographer extends Component {
         <Text>Portfolio: {user.portfolio_url}</Text>
         <Text>Likes:
             {user.total_likes &&
-              <Animated.View style={[styles.bar, styles.total_likes, {width: user.total_likes}]} />
+              <Animated.View style={[styles.bar, styles.likes, {width: user.total_likes}]} />
             }
         </Text>
         <Text>Total Photos:

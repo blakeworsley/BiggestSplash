@@ -10,7 +10,9 @@ import {
   ScrollView,
   Alert,
   Animated,
+  Image
 } from 'react-native';
+import Photographer from './Photographer';
 
 import photographersContainer from '../containers/photographersContainer';
 import profileContainer from '../containers/profileContainer';
@@ -30,35 +32,26 @@ class Search extends Component {
     };
   }
 
+  toPhotographerProfile(index) {
+    const photographer = this.props.photographers[index];
+    this.props.navigator.push({
+       component: Photographer, title: 'Photographer', photographer: photographer
+    });
+  }
+
   fetchPhotographerInfo() {
     const { getPhotographers } = this.props;
-    let arr = [];
+    let photographersArray = [];
     let url = `https://api.unsplash.com/search/photos?page=1&query=${this.state.search}&${secretkeyKirsten}`;
     fetch(url, {method: 'GET'})
       .then((response) => response.json())
       .then((responseData) => {
-        responseData.results.map((i) => {
-          // let downloads = i.downloads ? i.downloads : 0
-          let score = i.user.total_likes / i.user.total_photos;
-          arr.push({
-            score: score,
-            name: i.user.name,
-            likes: i.user.total_likes,
-            photos: i.user.total_photos,
-            username: i.user.username,
-            totalPhotos: i.user.total_photos,
-            // downloads: downloads
-          });
-        });
-        getPhotographers(arr);
-        this.setState({
-          likes: arr[1].likes,
-          totalPhotos: arr[1].totalPhotos
-        });
-        if(arr.length > 0) {
+        responseData.results.map((i) => photographersArray.push(i));
+        getPhotographers(photographersArray);
+        if(photographersArray.length > 0) {
           Alert.alert(
             'Request Successful',
-            `There are ${arr.length} photos in ${this.state.search}`,
+            `There are ${photographersArray.length} photos in ${this.state.search}`,
             [
               { text: 'OK' },
             ]
@@ -80,9 +73,7 @@ class Search extends Component {
   }
 
   render() {
-    const { likes, totalPhotos } = this.state;
     const { photographers, user } = this.props;
-    console.log(photographers);
     if(user) {
       return (
         <View style={styles.container}>
@@ -101,34 +92,27 @@ class Search extends Component {
           </TouchableHighlight>
 
           <ScrollView>
-             { photographers
-               ? photographers.map((photographer, i) => {
-                 return (
-                   <View key={i}>
-                     <Text>Photographer: {photographer.name}</Text>
-                     <Text>Total Score: {photographer.score}</Text>
-                     <Text>Total Likes: {photographer.likes}</Text>
-                     <Text>Total Downloads: {photographer.downloads}</Text>
-                     <Text>Username: {photographer.username}</Text>
-                   </View>
-                 )
-               })
-               : <View><Text>No Photographers in this area</Text></View>
-             }
+            { photographers 
+              ? photographers.map((photographer, index) => {
+                return (
+                  <TouchableHighlight key={index} id={index} onPress={() => {
+                    this.toPhotographerProfile(index);
+                  }}>
+                    <View >
+                      <Image 
+                        style={{width: 50, height: 50, borderRadius: 25}}
+                        source={{uri: photographer.user.profile_image.medium }}
+                      />
+                      <Text>Photographer: {photographer.user.name}</Text>
+                      <Text>Total Likes: {photographer.user.total_likes}</Text>
+                      <Text>Username: {photographer.user.username}</Text>
+                    </View>
+                  </TouchableHighlight>
+                )
+              }) 
+              : <View><Text>No Photographers in this area</Text></View>
+            }
            </ScrollView>
-
-          <View>
-            <Text>Likes:
-               {likes &&
-                  <Animated.View style={[styles.bar, styles.likes, {width: likes}]} />
-                }
-            </Text>
-            <Text>Total Photos:
-              {totalPhotos &&
-                <Animated.View style={[styles.bar, styles.totalPhotos, {width: totalPhotos}]} />
-              }
-            </Text>
-          </View>
         </View>
       );
     }
@@ -154,19 +138,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'green',
     height: 20,
     width: 50
-  },
-  bar: {
-    alignSelf: 'center',
-    borderRadius: 5,
-    height: 8,
-    marginRight: 5
-  },
-  likes: {
-    backgroundColor: '#6743f5'
-  },
-  totalPhotos: {
-    backgroundColor: '#26996c'
-  },
+  }
 });
 
 export default photographersContainer(

@@ -9,6 +9,7 @@ import {
 import Login from './Login';
 import Search from './Search';
 import Profile from './Profile';
+import Photographer from './Photographer';
 
 const routes = [
   { component: Login, title: 'Login to view photographers' },

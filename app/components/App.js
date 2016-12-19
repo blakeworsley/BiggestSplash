@@ -74,20 +74,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   navTitle: {
+    fontSize: 16,
     padding: 10,
     marginTop: 4,
-    fontSize: 16,
   },
   nav: {
-    height: 60,
     backgroundColor: '#E9E9E9',
+    height: 60,
   },
   nextButton: {
+    fontFamily: 'Helvetica',
     margin: 10,
-    fontFamily: 'Helvetica'    
   },
   prevButton: {
+    fontFamily: 'Helvetica',
     margin: 10,
-    fontFamily: 'Helvetica'
   }
 });

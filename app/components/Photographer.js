@@ -4,8 +4,10 @@ import {
   Text,
   View,
   Animated,
-  Image
+  Image,
+  Dimensions
 } from 'react-native';
+let { height, width } = Dimensions.get('window');
 
 class Photographer extends Component {
   render() {
@@ -13,7 +15,7 @@ class Photographer extends Component {
     const { user } = photographer;
     return (
       <View style={styles.container}>
-        <Image 
+        <Image
           style={{width: 100, height: 100, borderRadius: 50}}
           source={{uri: user.profile_image.large }}
         />
@@ -39,17 +41,17 @@ class Photographer extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: 'center',
+    backgroundColor: '#fff',
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#fff',
     justifyContent: 'flex-start',
-    alignItems: 'center',
     paddingTop: 200,
   },
   title: {
     fontSize: 30,
-    margin: 20,
     fontWeight: '300',
+    margin: 20,
   },
   bar: {
     alignSelf: 'center',

@@ -43,7 +43,7 @@ class Login extends Component{
         </Text>
         <TouchableHighlight
           style={styles.loginButton}
-          underlayColor='#949494'
+          underlayColor='#6a6ecc'
           onPress={this.onLogin.bind(this)}>
           <Text>Login</Text>
         </TouchableHighlight>
@@ -54,20 +54,24 @@ class Login extends Component{
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+    flex: 1,
+    justifyContent: 'center',
   },
   title: {
-    fontSize: 20,
+    fontFamily: 'Helvetica-Bold',
+    fontSize: 40,
+    marginBottom: 50,
     textAlign: 'center',
-    margin: 10,
   },
   loginButton: {
-    width: 50,
-    height: 20,
     backgroundColor: '#5156cc',
+    borderRadius: 10,
+    height: 40,
+    justifyContent: 'center',
+    paddingRight: 20,
+    paddingLeft: 20,
   }
 });
 

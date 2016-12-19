@@ -44,27 +44,27 @@ class Profile extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: 'center',
+    backgroundColor: '#fff',
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#fff',
     justifyContent: 'flex-start',
-    alignItems: 'center',
     paddingTop: 200,
   },
   title: {
     fontSize: 30,
-    margin: 20,
     fontWeight: '300',
+    margin: 20,
   },
   info: {
     fontSize: 18,
-    margin: 20,
     fontWeight: '100',
+    margin: 20,
   },
   avatar: {
+    borderRadius: 50,
     height: 100,
     width: 100,
-    borderRadius: 50,
   },
   logout: {
     backgroundColor: 'blue',

@@ -4,6 +4,7 @@ import {
   Text,
   View,
   Animated,
+  Image
 } from 'react-native';
 
 class Photographer extends Component {
@@ -13,19 +14,23 @@ class Photographer extends Component {
     return (
       <View style={styles.container}>
         <Text>Photographer: </Text>
-        <Text>{photographer.name} </Text>
+        <Text>{photographer.user.name} </Text>
         <View>
-            <Text>Likes:
-               {photographer.likes &&
-                  <Animated.View style={[styles.bar, styles.likes, {width: photographer.likes}]} />
-                }
-            </Text>
-            <Text>Total Photos:
-              {photographer.photos &&
-                <Animated.View style={[styles.bar, styles.totalPhotos, {width: photographer.photos}]} />
+          <Image 
+            style={{width: 100, height: 100, borderRadius: 50}}
+            source={{uri: photographer.user.profile_image.large }}
+          />
+          <Text>Likes:
+              {photographer.user.total_likes &&
+                <Animated.View style={[styles.bar, styles.total_likes, {width: photographer.user.total_likes}]} />
               }
-            </Text>
-          </View>
+          </Text>
+          <Text>Total Photos:
+            {photographer.user.total_photos &&
+              <Animated.View style={[styles.bar, styles.totalPhotos, {width: photographer.user.total_photos}]} />
+            }
+          </Text>
+        </View>
       </View>
     )
   }
@@ -61,3 +66,22 @@ const styles = StyleSheet.create({
 });
 
 export default Photographer;
+
+
+      // .then((responseData) => {
+      //   responseData.results.map((i) => {
+      //     debugger;
+          
+      //     // let downloads = i.downloads ? i.downloads : 0
+      //     let score = i.user.total_likes / i.user.total_photos;
+      //     photographersArray.push({
+      //       score: score,
+      //       name: i.user.name,
+      //       likes: i.user.total_likes,
+      //       photos: i.user.total_photos,
+      //       username: i.user.username,
+      //       totalPhotos: i.user.total_photos,
+      //       user: i
+      //       // downloads: downloads
+      //     });
+      //   });

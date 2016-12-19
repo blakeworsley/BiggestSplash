@@ -10,6 +10,7 @@ import {
   ScrollView,
   Alert,
   Animated,
+  Image
 } from 'react-native';
 import Photographer from './Photographer';
 
@@ -45,19 +46,7 @@ class Search extends Component {
     fetch(url, {method: 'GET'})
       .then((response) => response.json())
       .then((responseData) => {
-        responseData.results.map((i) => {
-          // let downloads = i.downloads ? i.downloads : 0
-          let score = i.user.total_likes / i.user.total_photos;
-          photographersArray.push({
-            score: score,
-            name: i.user.name,
-            likes: i.user.total_likes,
-            photos: i.user.total_photos,
-            username: i.user.username,
-            totalPhotos: i.user.total_photos,
-            // downloads: downloads
-          });
-        });
+        responseData.results.map((i) => photographersArray.push(i));
         getPhotographers(photographersArray);
         if(photographersArray.length > 0) {
           Alert.alert(
@@ -111,11 +100,13 @@ class Search extends Component {
                     this.toPhotographerProfile(index);
                   }}>
                     <View >
-                      <Text>Photographer: {photographer.name}</Text>
-                      <Text>Total Score: {photographer.score}</Text>
-                      <Text>Total Likes: {photographer.likes}</Text>
-                      <Text>Total Downloads: {photographer.downloads}</Text>
-                      <Text>Username: {photographer.username}</Text>
+                      <Image 
+                        style={{width: 50, height: 50, borderRadius: 50}}
+                        source={{uri: photographer.user.profile_image.medium }}
+                      />
+                      <Text>Photographer: {photographer.user.name}</Text>
+                      <Text>Total Likes: {photographer.user.total_likes}</Text>
+                      <Text>Username: {photographer.user.username}</Text>
                     </View>
                   </TouchableHighlight>
                 )

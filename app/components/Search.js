@@ -92,7 +92,6 @@ class Search extends Component {
           </TouchableHighlight>
 
           <ScrollView>
-
             { photographers 
               ? photographers.map((photographer, index) => {
                 return (
@@ -101,7 +100,7 @@ class Search extends Component {
                   }}>
                     <View >
                       <Image 
-                        style={{width: 50, height: 50, borderRadius: 50}}
+                        style={{width: 50, height: 50, borderRadius: 25}}
                         source={{uri: photographer.user.profile_image.medium }}
                       />
                       <Text>Photographer: {photographer.user.name}</Text>

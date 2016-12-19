@@ -10,27 +10,27 @@ import {
 class Photographer extends Component {
   render() {
     const { photographer } = this.props;
-    console.log(this.props.photographer)
+    const { user } = photographer;
     return (
       <View style={styles.container}>
-        <Text>Photographer: </Text>
-        <Text>{photographer.user.name} </Text>
-        <View>
-          <Image 
-            style={{width: 100, height: 100, borderRadius: 50}}
-            source={{uri: photographer.user.profile_image.large }}
-          />
-          <Text>Likes:
-              {photographer.user.total_likes &&
-                <Animated.View style={[styles.bar, styles.total_likes, {width: photographer.user.total_likes}]} />
-              }
-          </Text>
-          <Text>Total Photos:
-            {photographer.user.total_photos &&
-              <Animated.View style={[styles.bar, styles.totalPhotos, {width: photographer.user.total_photos}]} />
+        <Image 
+          style={{width: 100, height: 100, borderRadius: 50}}
+          source={{uri: user.profile_image.large }}
+        />
+        <Text>{user.name} </Text>
+        <Text>{user.bio} </Text>
+        <Text>Location: {user.location}</Text>
+        <Text>Portfolio: {user.portfolio_url}</Text>
+        <Text>Likes:
+            {user.total_likes &&
+              <Animated.View style={[styles.bar, styles.total_likes, {width: user.total_likes}]} />
             }
-          </Text>
-        </View>
+        </Text>
+        <Text>Total Photos:
+          {user.total_photos &&
+            <Animated.View style={[styles.bar, styles.totalPhotos, {width: user.total_photos}]} />
+          }
+        </Text>
       </View>
     )
   }
@@ -66,22 +66,3 @@ const styles = StyleSheet.create({
 });
 
 export default Photographer;
-
-
-      // .then((responseData) => {
-      //   responseData.results.map((i) => {
-      //     debugger;
-          
-      //     // let downloads = i.downloads ? i.downloads : 0
-      //     let score = i.user.total_likes / i.user.total_photos;
-      //     photographersArray.push({
-      //       score: score,
-      //       name: i.user.name,
-      //       likes: i.user.total_likes,
-      //       photos: i.user.total_photos,
-      //       username: i.user.username,
-      //       totalPhotos: i.user.total_photos,
-      //       user: i
-      //       // downloads: downloads
-      //     });
-      //   });

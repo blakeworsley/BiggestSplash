@@ -9,6 +9,7 @@ import {
   View,
   ScrollView,
   Alert,
+  Animated,
 } from 'react-native';
 import Photographer from './Photographer';
 
@@ -18,14 +19,15 @@ import profileContainer from '../containers/profileContainer';
 class Search extends Component {
   constructor(props) {
     super(props);
+    const width = {likes: 0, totalPhotos: 0};
     this.state = {
       search: '',
       photographer: '',
       photos: '',
-      likes: '',
-      downloads: '',
       photographerPortfolio: '',
-      photographers: ''
+      photographers: '',
+      likes: new Animated.Value(width.likes),
+      totalPhotos: new Animated.Value(width.totalPhotos)
     };
   }
 
@@ -38,28 +40,29 @@ class Search extends Component {
 
   fetchPhotographerInfo() {
     const { getPhotographers } = this.props;
-    let arr = [];
-    let url = `https://api.unsplash.com/search/photos?page=1&query=${this.state.search}&${secretkeyKirsten}`
+    let photographersArray = [];
+    let url = `https://api.unsplash.com/search/photos?page=1&query=${this.state.search}&${secretkeyKirsten}`;
     fetch(url, {method: 'GET'})
       .then((response) => response.json())
       .then((responseData) => {
         responseData.results.map((i) => {
-          let downloads = i.downloads ? i.downloads : 0
-          let score = (downloads + i.user.total_likes) / i.user.total_photos;          
-          arr.push({
+          // let downloads = i.downloads ? i.downloads : 0
+          let score = i.user.total_likes / i.user.total_photos;
+          photographersArray.push({
             score: score,
-            name: i.user.name, 
-            likes: i.user.total_likes, 
-            photos: i.user.total_photos, 
-            username: i.user.username, 
-            downloads: downloads
+            name: i.user.name,
+            likes: i.user.total_likes,
+            photos: i.user.total_photos,
+            username: i.user.username,
+            totalPhotos: i.user.total_photos,
+            // downloads: downloads
           });
         });
-        getPhotographers(arr);
-        if(arr.length > 0) {
+        getPhotographers(photographersArray);
+        if(photographersArray.length > 0) {
           Alert.alert(
             'Request Successful',
-            `There are ${arr.length} photos in ${this.state.search}`,
+            `There are ${photographersArray.length} photos in ${this.state.search}`,
             [
               { text: 'OK' },
             ]
@@ -68,15 +71,15 @@ class Search extends Component {
       })
       .catch((error) => {
         getPhotographers([]);
-        Alert.alert(
-          'Request Failed',
-          'Please try another location',
-          [
-            { text: 'OK' },
-          ]
-        );
-        console.log(error);
-      })
+          Alert.alert(
+            'Request Failed',
+            'Please try another location',
+            [
+              { text: 'OK' },
+            ]
+          );
+          console.log(error);
+        })
     .done();
   }
 
@@ -100,6 +103,7 @@ class Search extends Component {
           </TouchableHighlight>
 
           <ScrollView>
+
             { photographers 
               ? photographers.map((photographer, index) => {
                 return (
@@ -118,7 +122,7 @@ class Search extends Component {
               }) 
               : <View><Text>No Photographers in this area</Text></View>
             }
-          </ScrollView>
+           </ScrollView>
         </View>
       );
     }

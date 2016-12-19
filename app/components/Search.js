@@ -36,12 +36,10 @@ class Search extends Component {
 
   fetchPhotographerInfo() {
     const { getPhotographers } = this.props;
-    // let photographersArray = [];
     let url = `https://api.unsplash.com/search/photos?page=1&query=${this.state.search}&${secretkeyKirsten}`;
     fetch(url, {method: 'GET'})
       .then((response) => response.json())
       .then((responseData) => {
-        // responseData.results.map((i) => photographersArray.push(i));
         getPhotographers(responseData.results);
         if(responseData.results.length > 0) {
           Alert.alert(

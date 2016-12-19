@@ -9,12 +9,15 @@ import {
   View,
   ScrollView,
   Alert,
-  Image
+  Image,
+  Dimensions
 } from 'react-native';
 import Photographer from './Photographer';
 
 import photographersContainer from '../containers/photographersContainer';
 import profileContainer from '../containers/profileContainer';
+
+let { height, width } = Dimensions.get('window');
 
 class Search extends Component {
   constructor(props) {
@@ -33,17 +36,17 @@ class Search extends Component {
 
   fetchPhotographerInfo() {
     const { getPhotographers } = this.props;
-    let photographersArray = [];
+    // let photographersArray = [];
     let url = `https://api.unsplash.com/search/photos?page=1&query=${this.state.search}&${secretkeyKirsten}`;
     fetch(url, {method: 'GET'})
       .then((response) => response.json())
       .then((responseData) => {
-        responseData.results.map((i) => photographersArray.push(i));
-        getPhotographers(photographersArray);
-        if(photographersArray.length > 0) {
+        // responseData.results.map((i) => photographersArray.push(i));
+        getPhotographers(responseData.results);
+        if(responseData.results.length > 0) {
           Alert.alert(
             'Request Successful',
-            `There are ${photographersArray.length} photos in ${this.state.search}`,
+            `There are ${responseData.results.length} photos in ${this.state.search}`,
             [
               { text: 'OK' },
             ]
@@ -86,17 +89,17 @@ class Search extends Component {
           </View>
 
       <ScrollView style={styles.photographerList}>
-            { photographers 
+            { photographers
               ? photographers.map((photographer, index) => {
                 return (
-                  <TouchableHighlight 
-                  key={index} 
-                  id={index} 
+                  <TouchableHighlight
+                  key={index}
+                  id={index}
                   onPress={() => {
                     this.toPhotographerProfile(index);
                   }}>
                     <View style={styles.photographer}>
-                      <Image 
+                      <Image
                         style={styles.img}
                         source={{uri: photographer.user.profile_image.medium }}
                       />
@@ -110,7 +113,7 @@ class Search extends Component {
                     </View>
                   </TouchableHighlight>
                 )
-              }) 
+              })
               : <View><Text>No Photographers in this area</Text></View>
             }
            </ScrollView>
@@ -122,77 +125,77 @@ class Search extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#E9E9E9',
+    flex: 1,
+    justifyContent: 'center',
   },
   img: {
+    borderRadius: 25,
+    height: 50,
     margin: 20,
     width: 50,
-    height: 50,
-    borderRadius: 25,
   },
-  searchArea: {  
+  searchArea: {
     flexDirection: 'row',
-    marginTop: 65,
     marginBottom: 20,
+    marginTop: 65,
   },
   input: {
+    backgroundColor: '#F8F8F8',
+    borderRadius: 10,
     flex: 2,
     height: 40,
-    textAlign: 'center',
     marginLeft: 10,
     marginRight: 5,
     padding: 5,
-    backgroundColor: '#F8F8F8',
-    borderRadius: 10,
+    textAlign: 'center',
   },
   photographerList: {
     marginLeft: 10,
     marginRight: 10,
+    width: width * 0.9,
   },
   photographer: {
-    backgroundColor: '#F9F9F9',    
+    backgroundColor: '#F9F9F9',
+    borderRadius: 10,
     flexDirection: 'row',
     marginBottom: 2,
     marginTop: 2,
-    borderRadius: 10,
   },
   bio: {
     margin: 10,
     padding: 10,
   },
   boldText: {
+    color: '#707070',
     fontFamily: 'Helvetica-Bold',
     fontSize: 16,
-    color: '#707070',
     marginBottom: 5,
   },
   text: {
+    color: '#707070',
     fontFamily: 'Helvetica-Light',
     fontSize: 14,
-    color: '#707070',
   },
   rankView: {
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   rankText: {
+    color: '#888899',
     fontFamily: 'Helvetica-Bold',
     fontSize: 30,
-    color: '#888899',
   },
   submit: {
-    flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 10,
-    marginLeft: 5,
-    height: 40,
-    padding: 5,
     backgroundColor: '#888',
     borderRadius: 10,
+    flex: 1,
+    height: 40,
+    justifyContent: 'center',
+    marginLeft: 5,
+    marginRight: 10,
   }
 });
 

@@ -3,11 +3,15 @@ import { connect } from 'react-redux';
 import { actionCreators } from '../actions/photographersActions';
 
 const mapStateToProps = (state) => {
+  let photographers = [];
+  if (state.photographers) {
+    photographers = state.photographers.toJS();
+  }
   let photographersArray = [];
   let names = [];
-  state.photographers.map((i) => {
-    photographersArray.push(i)
-    names.push(i.user.name)
+  photographers.map((i) => {
+    photographersArray.push(i);
+    names.push(i.user.name);
   });
   // let uniquePhotographers = [...(new Set(photographersArray))]
 
@@ -17,7 +21,7 @@ const mapStateToProps = (state) => {
   //     uniques.push(photographersArray[i])
   //     debugger;
   //     names = [...(new Set(names))]
-  //     debugger;      
+  //     debugger;
   //   }
   // }
   // console.log(uniques);

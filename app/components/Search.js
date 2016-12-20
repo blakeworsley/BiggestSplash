@@ -89,7 +89,7 @@ class Search extends Component {
             </TouchableHighlight>
           </View>
 
-      <ScrollView style={styles.photographerList}>
+          <ScrollView style={styles.photographerList}>
             { photographers
               ? photographers.map((photographer, index) => {
                 return (

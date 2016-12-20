@@ -80,6 +80,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     height: 40,
     justifyContent: 'center',
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
     width: 90,
   },
   image: {

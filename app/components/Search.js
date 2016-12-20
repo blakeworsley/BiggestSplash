@@ -91,7 +91,7 @@ class Search extends Component {
           </View>
 
           <ScrollView style={styles.photographerList}>
-            { photographers
+            { photographers.length 
               ? photographers.map((photographer, index) => {
                 return (
                   <TouchableHighlight
@@ -103,7 +103,6 @@ class Search extends Component {
                     this.toPhotographerProfile(index);
                   }}>
                     <View style={{
-
                       borderRadius: 10,
                       flexDirection: 'row',
                       height: 100,
@@ -125,7 +124,11 @@ class Search extends Component {
                   </TouchableHighlight>
                 )
               })
-              : <View><Text>No Photographers in this area</Text></View>
+              : <View style={{height: height*0.6, alignItems: 'center', justifyContent: 'center'}}>
+                  <Text style={styles.boldText}>
+                  Please Enter a City to Search for a Photographer
+                  </Text>
+                </View>
             }
            </ScrollView>
         </View>

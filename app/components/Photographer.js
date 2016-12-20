@@ -9,6 +9,9 @@ import {
 } from 'react-native';
 let { height, width } = Dimensions.get('window');
 
+import photographersContainer from '../containers/photographersContainer';
+import DataVisuals from './DataVisuals';
+
 class Photographer extends Component {
   render() {
     const { photographer } = this.props;
@@ -23,21 +26,11 @@ class Photographer extends Component {
         <Text>{user.bio} </Text>
         <Text>Location: {user.location}</Text>
         <Text>Portfolio: {user.portfolio_url}</Text>
-        <Text>Likes:
-            {user.total_likes &&
-              <Animated.View style={[styles.bar, styles.likes, {width: user.total_likes}]} />
-            }
-        </Text>
-        <Text>Total Photos:
-          {user.total_photos &&
-            <Animated.View style={[styles.bar, styles.totalPhotos, {width: user.total_photos}]} />
-          }
-        </Text>
+        <DataVisuals photographer={photographer} />
       </View>
     )
   }
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -52,19 +45,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: '300',
     margin: 20,
-  },
-  bar: {
-    alignSelf: 'center',
-    borderRadius: 5,
-    height: 8,
-    marginRight: 5
-  },
-  likes: {
-    backgroundColor: '#6743f5'
-  },
-  totalPhotos: {
-    backgroundColor: '#26996c'
-  },
+  }
 });
 
-export default Photographer;
+export default photographersContainer(Photographer);

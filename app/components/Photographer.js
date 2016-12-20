@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import photographersContainer from '../containers/photographersContainer';
 import DataVisuals from './DataVisuals';
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
 let { height, width } = Dimensions.get('window');
 
@@ -56,6 +57,41 @@ class Photographer extends Component {
               </View>
               <DataVisuals photographer={photographer} />
             </View>
+            <View style={styles.circularProgressView}>
+                <AnimatedCircularProgress
+                  size={75}
+                  width={10}
+                  fill={user.total_likes}
+                  style={styles.circle}
+                  tintColor="#00e0ff"
+                  backgroundColor="#3d5875">
+                  {
+                    (fill) => (
+                      <Text style={styles.points}>                      
+                        { user.total_likes }
+                      </Text>
+                    )
+                  }
+                  </AnimatedCircularProgress>
+                <View>
+                  <Text>Likes</Text>
+                  <AnimatedCircularProgress
+                    size={75}
+                    width={10}
+                    fill={user.total_photos}
+                    tintColor="#00e0ff"
+                    backgroundColor="#3d5875">
+                    {
+                      (fill) => (
+                        <Text style={styles.points}>
+                          { user.total_photos }
+                        </Text>
+                      )
+                    }
+                    </AnimatedCircularProgress>
+                </View>
+
+              </View>
           </View>
         </ScrollView>
       </View>
@@ -71,8 +107,31 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     paddingTop: 60
   },
+  points: {
+      backgroundColor: 'transparent',
+      position: 'absolute',
+      top: 25,
+      left: 3,
+      width: 70,
+      textAlign: 'center',
+      color: '#7591af',
+      fontSize: 20,
+      fontFamily: 'HelveticaNeue-LightItalic',
+      fontWeight: "100",
+      color: '#888',
+    },
   scrollView: {
     width: width * 1,
+  },
+  circularProgressView: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  circle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10
   },
   img: {
     borderRadius: 100,

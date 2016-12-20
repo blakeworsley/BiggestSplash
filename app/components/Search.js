@@ -63,6 +63,9 @@ class Search extends Component {
           console.log(error);
         })
     .done();
+    this.setState({
+      search: ''
+    });
   }
 
   render() {
@@ -86,7 +89,7 @@ class Search extends Component {
             </TouchableHighlight>
           </View>
 
-      <ScrollView style={styles.photographerList}>
+          <ScrollView style={styles.photographerList}>
             { photographers
               ? photographers.map((photographer, index) => {
                 return (
@@ -145,7 +148,7 @@ const styles = StyleSheet.create({
   searchArea: {
     flexDirection: 'row',
     marginBottom: 20,
-    marginTop: 65,
+    marginTop: 80,
   },
   input: {
     backgroundColor: '#F8F8F8',

@@ -8,10 +8,13 @@ import {
   Text,
   View,
   TouchableHighlight,
+  Image,
+  Dimensions
 } from 'react-native';
 
 const credentials = require('../../auth0-credentials');
 const lock = new Auth0Lock(credentials);
+let { height, width } = Dimensions.get('window');
 
 class Login extends Component{
   constructor (props) {
@@ -38,15 +41,21 @@ class Login extends Component{
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>
-          Biggest Splash
-        </Text>
-        <TouchableHighlight
-          style={styles.loginButton}
-          underlayColor='#6a6ecc'
-          onPress={this.onLogin.bind(this)}>
-          <Text>Login</Text>
-        </TouchableHighlight>
+        <Image
+          style={styles.image}
+          source={require('../../img/splash.png')}
+        >
+          <Text style={styles.title}>
+            Biggest Splash
+          </Text>
+          <TouchableHighlight
+            style={styles.loginButton}
+            underlayColor='#3cd0bf'
+            onPress={this.onLogin.bind(this)}
+          >
+            <Text>Login</Text>
+          </TouchableHighlight>
+        </Image>
       </View>
     );
   }
@@ -54,24 +63,33 @@ class Login extends Component{
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
     flex: 1,
     justifyContent: 'center',
   },
   title: {
+    color: '#111',
     fontFamily: 'Helvetica-Bold',
     fontSize: 40,
-    marginBottom: 50,
+    marginBottom: 30,
+    marginTop: 190,
     textAlign: 'center',
   },
   loginButton: {
-    backgroundColor: '#5156cc',
+    alignItems: 'center',
+    backgroundColor: '#30a194',
     borderRadius: 10,
     height: 40,
     justifyContent: 'center',
-    paddingRight: 20,
-    paddingLeft: 20,
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    width: 90,
+  },
+  image: {
+    alignItems: 'center',
+    flex: 1,
+    height: height * 1,
+    width: width * 1,
   }
 });
 

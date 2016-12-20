@@ -66,7 +66,7 @@ class Photographer extends Component {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#E9E9E9',
     flex: 1,
     flexDirection: 'column',
     paddingTop: 60

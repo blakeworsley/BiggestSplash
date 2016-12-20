@@ -19,14 +19,12 @@ class DataVisuals extends Component {
     return (
       <View style={styles.container}>
         <Text>Likes:
-          {user.total_likes &&
-            <Animated.View style={[styles.bar, styles.likes, { width: user.total_likes }]} />
-          }
+          <Animated.View style={[styles.bar, styles.likes, { width: user.total_likes }]} />
+          <Text>{user.total_likes}</Text>
         </Text>
         <Text>Total Photos:
-          {user.total_photos &&
-            <Animated.View style={[styles.bar, styles.totalPhotos, { width: user.total_photos }]} />
-          }
+          <Animated.View style={[styles.bar, styles.totalPhotos, { width: user.total_photos }]} />
+          <Text>{user.total_photos}</Text>
         </Text>
       </View>
     )
@@ -35,7 +33,7 @@ class DataVisuals extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    alignItems: 'flex-start',
     flex: 1,
     flexDirection: 'column',
     paddingTop: 50,

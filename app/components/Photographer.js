@@ -10,7 +10,19 @@ import {
   Linking,
   Dimensions
 } from 'react-native';
+import photographersContainer from '../containers/photographersContainer';
+import DataVisuals from './DataVisuals';
+
 let { height, width } = Dimensions.get('window');
+
+const link = (url) => {
+  Linking.canOpenURL(url).then(supported => {
+    if (supported) { Linking.openURL(url); }
+    else {
+      console.log('Don\'t know how to open URI: ' + url);
+    }
+  });
+};
 
 class Photographer extends Component {
   render() {
@@ -18,55 +30,37 @@ class Photographer extends Component {
     const { user } = photographer;
     return (
       <View style={styles.container}>
-      <ScrollView style={styles.scrollView}>
-        <View style={styles.centered}>
-          <Image
-            style={styles.img}
-            source={{uri: user.profile_image.large }}
-          />
-          <View style={styles.visualView}>
-            <Text style={styles.boldText}>{user.name}</Text>
-            <Text style={styles.text}>{user.bio}</Text>
-            <Text style={styles.textBio}>Location: {user.location}</Text>
-            <TouchableHighlight 
-              onPress={() => link(user.portfolio_url)}
-            >
-              <Text style={styles.textBio}>Portfolio: {user.portfolio_url}</Text>
-            </TouchableHighlight>
-            <Text style={styles.textBio}>Likes:
-                {user.total_likes &&
-                  <Animated.View style={[styles.bar, styles.likes, {width: user.total_likes}]} />
-                }
-            </Text>
-            <Text style={styles.textBio}>Total Photos:
-              {user.total_photos &&
-                <Animated.View style={[styles.bar, styles.totalPhotos, {width: user.total_photos}]} />
-              }
-            </Text>
-            <Text style={styles.text}>Color: </Text>
-            <View style={{
-              backgroundColor: photographer.color,
-              height: 100,
-              width: width *0.8,
-              alignSelf: 'center',
-            }}>
-              <Text style={{alignSelf: 'center', justifyContent: 'center', height: 100}}>{photographer.color}</Text>
+        <ScrollView style={styles.scrollView}>
+          <View style={styles.centered}>
+            <Image
+              style={styles.img}
+              source={{uri: user.profile_image.large }}
+            />
+            <View style={styles.visualView}>
+              <Text style={styles.boldText}>{user.name}</Text>
+              <Text style={styles.text}>{user.bio}</Text>
+              <Text style={styles.textBio}>Location: {user.location}</Text>
+              <TouchableHighlight
+                onPress={() => link(user.portfolio_url)}
+              >
+                <Text style={styles.textBio}>Portfolio: {user.portfolio_url}</Text>
+              </TouchableHighlight>
+              <Text style={styles.text}>Primary Photo Color: </Text>
+              <View style={{
+                backgroundColor: photographer.color,
+                height: 100,
+                width: width *0.8,
+                alignSelf: 'center',
+              }}>
+                <Text style={{alignSelf: 'center', justifyContent: 'center', height: 100}}>{photographer.color}</Text>
+              </View>
+              <DataVisuals photographer={photographer} />
             </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
       </View>
     )
   }
-}
-
-const link = (url) => { 
-  Linking.canOpenURL(url).then(supported => {
-    if (supported) { Linking.openURL(url); } 
-    else {
-      console.log('Don\'t know how to open URI: ' + url);
-    }
-  });
 }
 
 const styles = StyleSheet.create({
@@ -89,23 +83,12 @@ const styles = StyleSheet.create({
   visualView: {
     flexWrap: 'wrap',
     padding: 10,
-    width: width * 0.8,    
+    width: width * 0.8,
   },
   title: {
     fontSize: 30,
     fontWeight: '300',
     margin: 20,
-  },
-  bar: {
-    alignSelf: 'center',
-    borderRadius: 5,
-    height: 8,
-  },
-  likes: {
-    backgroundColor: '#6743f5'
-  },
-  totalPhotos: {
-    backgroundColor: '#26996c'
   },
   boldText: {
     color: '#707070',
@@ -130,7 +113,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingBottom: 10,
     paddingTop: 10,
-  },
+  }
 });
 
-export default Photographer;
+export default photographersContainer(Photographer);

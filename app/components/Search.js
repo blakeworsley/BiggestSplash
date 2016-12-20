@@ -108,6 +108,7 @@ class Search extends Component {
                       borderRadius: 10,
                       flexDirection: 'row',
                       height: 100,
+                      backgroundColor: '#f9f9f9',
                     }}>
                       <View style={styles.photoView}>
                         <Image

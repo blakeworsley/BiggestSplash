@@ -70,7 +70,7 @@ class Photographer extends Component {
                 width: width *0.8,
                 alignSelf: 'center',
               }}>
-                <Text style={{alignSelf: 'center', justifyContent: 'center', height: 100}}>{photographer.color}</Text>
+                <Text style={{marginTop: 80, alignSelf: 'center', justifyContent: 'center', height: 100}}>{photographer.color}</Text>
               </View>
               <View style={{flex: 1, justifyContent: 'center'}}>
                 <Text style={styles.text}>Rated Photo:</Text>

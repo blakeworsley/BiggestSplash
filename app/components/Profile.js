@@ -10,37 +10,18 @@ import {
 import profileContainer from '../containers/profileContainer';
 import Login from './Login';
 
-class Profile extends Component {
-  constructor(props) {
-    super(props);
+const Profile = ({user}) => {
+  if(user) {
+    return (
+      <View style={styles.container}>
+        <Image style={styles.avatar} source={{uri: user.picture}} />
+        <Text style={styles.title}>{user.name}</Text>
+        <Text style={styles.info}>{user.email}</Text>
+      </View>
+    )
   }
-
-  logout() {
-    this.props.navigator.pop({
-      component: Login
-    });
-  }
-
-  render() {
-    const { user } = this.props;
-    if(user) {
-      return (
-        <View style={styles.container}>
-          <Image style={styles.avatar} source={{uri: user.picture}} />
-          <Text style={styles.title}>{user.name}</Text>
-          <Text style={styles.info}>{user.email}</Text>
-          <TouchableHighlight
-            style={styles.logout}
-            onPress={() => this.logout()}>
-            <Text>Logout</Text>
-          </TouchableHighlight>
-        </View>
-      )
-    }
-    return (null)
-  }
+  return (null)
 }
-
 
 const styles = StyleSheet.create({
   container: {

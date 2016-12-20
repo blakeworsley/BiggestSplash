@@ -93,20 +93,32 @@ class Search extends Component {
                   <TouchableHighlight
                   key={index}
                   id={index}
+                  style={styles.photographersTouchable}
                   onPress={() => {
                     this.toPhotographerProfile(index);
                   }}>
-                    <View style={styles.photographer}>
-                      <Image
-                        style={styles.img}
-                        source={{uri: photographer.user.profile_image.medium }}
-                      />
+                    <View style={{
+
+                      borderRadius: 10,
+                      flexDirection: 'row',
+                      height: 100,
+                    }}>
+                      <View style={styles.photoView}>
+                        <Image
+                          style={styles.img}
+                          source={{uri: photographer.user.profile_image.medium }}
+                        />
+                      </View>
                       <View style={styles.bio}>
                         <Text style={styles.boldText}>{photographer.user.name}</Text>
                         <Text style={styles.text}>Likes: {photographer.user.total_likes}</Text>
                       </View>
                       <View style={styles.rankView}>
-                        <Text style={styles.rankText}>1</Text>
+                        <Text style={{
+                              color: photographer.color,
+                              fontFamily: 'Helvetica-Bold',
+                              fontSize: 30,
+                        }}>{index + 1}</Text>
                       </View>
                     </View>
                   </TouchableHighlight>
@@ -121,6 +133,7 @@ class Search extends Component {
   }
 }
 
+
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
@@ -131,7 +144,6 @@ const styles = StyleSheet.create({
   img: {
     borderRadius: 25,
     height: 50,
-    margin: 20,
     width: 50,
   },
   searchArea: {
@@ -158,12 +170,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#F9F9F9',
     borderRadius: 10,
     flexDirection: 'row',
+    height: 100,
+  },
+  photographersTouchable: {
+    borderRadius: 10,
     marginBottom: 2,
     marginTop: 2,
   },
   bio: {
-    margin: 10,
     padding: 10,
+    flex: 2,
+    justifyContent: 'center',
   },
   boldText: {
     color: '#707070',
@@ -177,8 +194,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   rankView: {
-    alignItems: 'center',
+    flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  photoView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   rankText: {
     color: '#888899',

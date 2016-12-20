@@ -45,7 +45,13 @@ export default class App extends Component {
                       </TouchableHighlight>
                     )
                   }
-                  else { return null }
+                  if(index === 1) {
+                    return (
+                      <TouchableHighlight onPress={() => navigator.pop()}>
+                        <Text style={styles.prevButton}>Logout</Text>
+                      </TouchableHighlight>
+                    )
+                  }
                 },
 
                 RightButton(route, navigator, index, navState) {

@@ -1,3 +1,5 @@
+'use strict';
+
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -69,12 +71,13 @@ class Photographer extends Component {
                 alignSelf: 'center',
               }}>
                 <Text style={{alignSelf: 'center', justifyContent: 'center', height: 100}}>{photographer.color}</Text>
-              <View>
+              </View>
+              <View style={{flex: 1, justifyContent: 'center'}}>
+                <Text style={styles.text}>Rated Photo:</Text>
                 <Image
                   style={styles.thumbnail}
                   source={{uri:`${photographer.urls.thumb}`}}
                 />
-              </View>
               </View>
             <DataVisuals photographer={photographer} />
             </View>
@@ -200,8 +203,8 @@ const styles = StyleSheet.create({
   },
   thumbnail: {
     height: 200,
-    marginTop: 100,
     width: 300,
+    marginLeft: -10,
   }
 });
 

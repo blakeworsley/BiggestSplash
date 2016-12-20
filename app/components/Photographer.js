@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import photographersContainer from '../containers/photographersContainer';
 import DataVisuals from './DataVisuals';
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
 let { height, width } = Dimensions.get('window');
 
@@ -32,10 +33,22 @@ class Photographer extends Component {
       <View style={styles.container}>
         <ScrollView style={styles.scrollView}>
           <View style={styles.centered}>
-            <Image
-              style={styles.img}
-              source={{uri: user.profile_image.large }}
-            />
+            <AnimatedCircularProgress
+              size={220}
+              width={10}
+              fill={user.total_likes}
+              style={styles.circle}
+              tintColor="#00e0ff"
+              backgroundColor="#3d5875">
+              {
+                (fill) => (
+                  <Image
+                    style={styles.img}
+                    source={{uri: user.profile_image.large }}
+                  />
+                )
+              }
+            </AnimatedCircularProgress>
             <View style={styles.visualView}>
               <Text style={styles.boldText}>{user.name}</Text>
               <Text style={styles.text}>{user.bio}</Text>
@@ -49,14 +62,61 @@ class Photographer extends Component {
               <View style={{
                 backgroundColor: photographer.color,
                 height: 100,
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
                 width: width *0.8,
                 alignSelf: 'center',
               }}>
                 <Text style={{alignSelf: 'center', justifyContent: 'center', height: 100}}>{photographer.color}</Text>
+              <View>
+                <Image
+                  style={styles.thumbnail} 
+                  source={{uri:`${photographer.urls.thumb}`}}
+                />
               </View>
-              <DataVisuals photographer={photographer} />
+              </View>
+            <DataVisuals photographer={photographer} />
             </View>
-          </View>
+            <View style={styles.circularProgressView}>
+              <View style={styles.circle}>
+                <Text style={styles.text}>Likes</Text>
+                <AnimatedCircularProgress
+                  size={75}
+                  width={10}
+                  fill={user.total_likes}
+                  style={styles.circle}
+                  tintColor="#00e0ff"
+                  backgroundColor="#3d5875">
+                  {
+                    (fill) => (
+                      <Text style={styles.points}>                      
+                        { user.total_likes }
+                      </Text>
+                    )
+                  }
+                </AnimatedCircularProgress>
+                </View>
+                <View style={styles.circle}>
+                  <Text style={styles.text}>Total Photos</Text>
+                  <AnimatedCircularProgress
+                    size={75}
+                    width={10}
+                    fill={user.total_photos}
+                    style={styles.circle}
+                    tintColor="#00e0ff"
+                    backgroundColor="#3d5875">
+                    {
+                      (fill) => (
+                        <Text style={styles.points}>                      
+                          { user.total_photos }
+                        </Text>
+                      )
+                    }
+                  </AnimatedCircularProgress>
+                </View>
+              </View>
+           </View>
         </ScrollView>
       </View>
     )
@@ -71,18 +131,42 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     paddingTop: 60
   },
+  points: {
+    backgroundColor: 'transparent',
+    color: '#888',
+    color: '#7591af',
+    fontFamily: 'HelveticaNeue-LightItalic',
+    fontSize: 20,
+    left: 3,
+    position: 'absolute',
+    textAlign: 'center',
+    top: 25,
+    width: 70,
+  },
   scrollView: {
     width: width * 1,
   },
+  circularProgressView: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    top: -160,
+  },
+  circle: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 10,
+  },
   img: {
     borderRadius: 100,
+    top: -210,
     height: 200,
-    margin: 50,
     width: 200,
   },
   visualView: {
     flexWrap: 'wrap',
     padding: 10,
+    top: -170,
     width: width * 0.8,
   },
   title: {
@@ -113,6 +197,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingBottom: 10,
     paddingTop: 10,
+  },
+  thumbnail: {
+    height: 200,
+    marginTop: 100,
+    width: 300,
   }
 });
 

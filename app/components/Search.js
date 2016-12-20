@@ -41,6 +41,7 @@ class Search extends Component {
       .then((response) => response.json())
       .then((responseData) => {
         getPhotographers(responseData.results);
+        console.log(responseData.results)
         if(responseData.results.length > 0) {
           Alert.alert(
             'Request Successful',

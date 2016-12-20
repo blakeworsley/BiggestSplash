@@ -33,7 +33,7 @@ class DataVisuals extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'flex-start',
+    alignItems: 'center',
     flex: 1,
     flexDirection: 'column',
     paddingTop: 50,

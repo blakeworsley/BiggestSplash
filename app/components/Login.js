@@ -50,7 +50,7 @@ class Login extends Component{
           </Text>
           <TouchableHighlight
             style={styles.loginButton}
-            underlayColor='#3cd0bf'
+            underlayColor='#7591af'
             onPress={this.onLogin.bind(this)}
           >
             <Text>Login</Text>
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     alignItems: 'center',
-    backgroundColor: '#30a194',
+    backgroundColor: '#7591af',
     borderRadius: 10,
     height: 40,
     justifyContent: 'center',

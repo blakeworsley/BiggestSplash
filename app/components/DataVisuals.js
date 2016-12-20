@@ -20,11 +20,11 @@ class DataVisuals extends Component {
       <View style={styles.container}>
         <Text>Likes:
           <Animated.View style={[styles.bar, styles.likes, { width: user.total_likes }]} />
-          <Text>{user.total_likes}</Text>
+          <Text >{user.total_likes}</Text>
         </Text>
         <Text>Total Photos:
           <Animated.View style={[styles.bar, styles.totalPhotos, { width: user.total_photos }]} />
-          <Text>{user.total_photos}</Text>
+          <Text >{user.total_photos}</Text>
         </Text>
       </View>
     )
@@ -49,7 +49,14 @@ const styles = StyleSheet.create({
   },
   totalPhotos: {
     backgroundColor: '#26996c'
-  }
+  },
+  text: {
+    color: '#707070',
+    fontFamily: 'HelveticaNeue-LightItalic',
+    fontSize: 16,
+    paddingBottom: 10,
+    paddingTop: 10,
+  },
 });
 
 export default photographersContainer(DataVisuals);

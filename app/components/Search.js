@@ -63,6 +63,9 @@ class Search extends Component {
           console.log(error);
         })
     .done();
+    this.setState({
+      search: ''
+    });
   }
 
   render() {
@@ -145,7 +148,7 @@ const styles = StyleSheet.create({
   searchArea: {
     flexDirection: 'row',
     marginBottom: 20,
-    marginTop: 65,
+    marginTop: 80,
   },
   input: {
     backgroundColor: '#F8F8F8',

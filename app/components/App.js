@@ -34,20 +34,19 @@ export default class App extends Component {
         }}
         navigationBar={
           <Navigator.NavigationBar
-            style={ styles.nav }
             routeMapper={
               {
                 LeftButton(route, navigator, index, navState) {
                   if(index === 2) {
                     return (
-                      <TouchableHighlight onPress={() => navigator.pop()}>
+                      <TouchableHighlight underlayColor='#707070' onPress={() => navigator.pop()}>
                         <Text style={styles.prevButton}>Back</Text>
                       </TouchableHighlight>
                     )
                   }
                   if(index === 1) {
                     return (
-                      <TouchableHighlight onPress={() => navigator.pop()}>
+                      <TouchableHighlight underlayColor='#707070' onPress={() => navigator.pop()}>
                         <Text style={styles.prevButton}>Logout</Text>
                       </TouchableHighlight>
                     )
@@ -57,7 +56,7 @@ export default class App extends Component {
                 RightButton(route, navigator, index, navState) {
                   if(index === 1) {
                     return (
-                      <TouchableHighlight onPress={() => navigator.push(routes[index + 1])}>
+                      <TouchableHighlight underlayColor='#707070' onPress={() => navigator.push(routes[index + 1])}>
                         <Text style={styles.nextButton}>Profile</Text>
                       </TouchableHighlight>
                     )
@@ -85,15 +84,16 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   nav: {
-    backgroundColor: '#E9E9E9',
     height: 60,
   },
   nextButton: {
+    color: '#30bd97',
     fontFamily: 'Helvetica',
-    margin: 10,
+    margin: 15,
   },
   prevButton: {
+    color: '#30bd97',
     fontFamily: 'Helvetica',
-    margin: 10,
+    margin: 15,
   }
 });

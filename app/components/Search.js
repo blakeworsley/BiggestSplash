@@ -91,6 +91,7 @@ class Search extends Component {
               ? photographers.map((photographer, index) => {
                 return (
                   <TouchableHighlight
+                  underlayColor={photographer.color}
                   key={index}
                   id={index}
                   style={styles.photographersTouchable}
@@ -114,11 +115,7 @@ class Search extends Component {
                         <Text style={styles.text}>Likes: {photographer.user.total_likes}</Text>
                       </View>
                       <View style={styles.rankView}>
-                        <Text style={{
-                              color: photographer.color,
-                              fontFamily: 'Helvetica-Bold',
-                              fontSize: 30,
-                        }}>{index + 1}</Text>
+                        <Text style={styles.rankText}>{index + 1}</Text>
                       </View>
                     </View>
                   </TouchableHighlight>

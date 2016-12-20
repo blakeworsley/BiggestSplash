@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import photographersContainer from '../containers/photographersContainer';
 import DataVisuals from './DataVisuals';
+import { toJS } from 'immutable';
 
 let { height, width } = Dimensions.get('window');
 

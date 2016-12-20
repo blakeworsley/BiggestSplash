@@ -69,7 +69,9 @@ class Search extends Component {
   }
 
   render() {
-    const { photographers, user } = this.props;
+    let photographers = this.props.photographers;
+    let user = this.props.user;
+    console.log(this.props);
     if(user) {
       return (
         <View style={styles.container}>

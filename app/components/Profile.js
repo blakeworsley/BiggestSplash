@@ -10,17 +10,23 @@ import {
 import profileContainer from '../containers/profileContainer';
 import Login from './Login';
 
-const Profile = ({user}) => {
-  if(user) {
-    return (
-      <View style={styles.container}>
+class Profile extends Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    const { user } = this.props;
+    if(user) {
+      return (
+        <View style={styles.container}>
         <Image style={styles.avatar} source={{uri: user.picture}} />
         <Text style={styles.name}>{user.name}</Text>
         <Text style={styles.email}>{user.email}</Text>
-      </View>
-    )
+        </View>
+      )
+    }
+    return (null)
   }
-  return (null)
 }
 
 const styles = StyleSheet.create({

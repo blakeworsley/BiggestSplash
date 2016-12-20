@@ -87,12 +87,12 @@ const styles = StyleSheet.create({
     height: 60,
   },
   nextButton: {
-    color: '#30bd97',
+    color: '#3d5875',
     fontFamily: 'Helvetica',
     margin: 15,
   },
   prevButton: {
-    color: '#30bd97',
+    color: '#3d5875',
     fontFamily: 'Helvetica',
     margin: 15,
   }

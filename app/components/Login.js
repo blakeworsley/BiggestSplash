@@ -50,7 +50,7 @@ class Login extends Component{
           </Text>
           <TouchableHighlight
             style={styles.loginButton}
-            underlayColor='#7591af'
+            underlayColor='#5882af'
             onPress={this.onLogin.bind(this)}
           >
             <Text>Login</Text>

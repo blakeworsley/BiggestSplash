@@ -4,24 +4,23 @@ import {
   Text,
   View,
   Image,
-  TouchableHighlight
 } from 'react-native';
 
 import profileContainer from '../containers/profileContainer';
-import Login from './Login';
 
 class Profile extends Component {
   constructor(props) {
     super(props);
   }
+
   render() {
-    const { user } = this.props;
+    const user = this.props.user.toJS()
     if(user) {
       return (
         <View style={styles.container}>
-        <Image style={styles.avatar} source={{uri: user.picture}} />
-        <Text style={styles.name}>{user.name}</Text>
-        <Text style={styles.email}>{user.email}</Text>
+          <Image style={styles.avatar} source={{uri: user.picture}} />
+          <Text style={styles.name}>{user.name}</Text>
+          <Text style={styles.email}>{user.email}</Text>
         </View>
       )
     }

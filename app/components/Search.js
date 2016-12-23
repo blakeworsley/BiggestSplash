@@ -1,3 +1,4 @@
+'use strict';
 import React, { Component } from 'react';
 const { secretkeyBlake, secretkeyKirsten } = require('../../secretkey');
 import { connect } from 'react-redux';
@@ -10,7 +11,8 @@ import {
   ScrollView,
   Alert,
   Image,
-  Dimensions
+  Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 
 import Photographer from './Photographer';
@@ -23,8 +25,21 @@ class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: ''
+      search: '',
+      animating: false
     };
+  }
+
+  showLoaderIndicator() {
+    setTimeout(() => {
+      this.setState({ animating: true });
+    });
+  }
+
+  hideLoaderIndicator() {
+    setTimeout(() => {
+      this.setState({ animating: false });
+    });
   }
 
   toPhotographerProfile(index) {
@@ -35,16 +50,19 @@ class Search extends Component {
   }
 
   fetchPhotographerInfo() {
+    const seachTerm = this.state.search;
     const { getPhotographers } = this.props;
     let url = `https://api.unsplash.com/search/photos?page=1&query=${this.state.search}&${secretkeyKirsten}`;
+    this.showLoaderIndicator();
     fetch(url, {method: 'GET'})
       .then((response) => response.json())
       .then((responseData) => {
         getPhotographers(responseData.results);
         if(responseData.results.length > 0) {
+          this.hideLoaderIndicator();
           Alert.alert(
             'Request Successful',
-            `There are ${responseData.results.length} photos in ${this.state.search}`,
+            `There are ${responseData.results.length} photos in ${seachTerm}`,
             [
               { text: 'OK' },
             ]
@@ -90,6 +108,11 @@ class Search extends Component {
               <Text>Submit</Text>
             </TouchableHighlight>
           </View>
+          <ActivityIndicator
+            animating={this.state.animating}
+            style={[styles.centering, {height: 80}]}
+            size="large"
+          />
 
           <ScrollView style={styles.photographerList}>
             { photographers.length
@@ -121,11 +144,11 @@ class Search extends Component {
                   </TouchableHighlight>
                 )
               })
-              : <View style={styles.instructions}>
-                  <Text style={styles.boldText}>
-                  Please Enter a City to Search for a Photographer
-                  </Text>
-                </View>
+             : <View style={styles.instructions}>
+                 <Text style={styles.boldText}>
+                 Please Enter a City to Search for a Photographer
+                 </Text>
+               </View>
             }
            </ScrollView>
         </View>

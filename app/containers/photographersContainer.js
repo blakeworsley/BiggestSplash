@@ -3,30 +3,28 @@ import { connect } from 'react-redux';
 import { actionCreators } from '../actions/photographersActions';
 
 const mapStateToProps = (state) => {
-  let photographers = [];
-  if (state.photographers) {
-    photographers = state.photographers.toJS();
+
+let photosArray = [];
+let names = [];
+let photographers = state.photographers.toJS();
+photographers.map((picture) => {
+  photosArray.push(picture);
+  names.push(picture.user.name);
+});
+
+let uniqueNames = [ ]
+let uniquePhotos = [ ]
+
+for (let i = 0; i < photosArray.length; i++) {
+  if (!uniqueNames.includes(photosArray[i].user.name)) {
+    uniqueNames.push(photosArray[i].user.name)
+    uniquePhotos.push(photosArray[i])
   }
-  let photographersArray = [];
-  let names = [];
-  photographers.map((i) => {
-    photographersArray.push(i);
-    names.push(i.user.name);
-  });
-  // let uniquePhotographers = [...(new Set(photographersArray))]
+}
 
-  // let uniques = []
-  // for (let i = 0; i < photographersArray.length; i++) {
-  //   if (names.includes(photographersArray[i].user.name)) {
-  //     uniques.push(photographersArray[i])
-  //     debugger;
-  //     names = [...(new Set(names))]
-  //     debugger;
-  //   }
-  // }
-  // console.log(uniques);
+const sortedPhotos = uniquePhotos.sort((a,b) => b.user.total_likes - a.user.total_likes)
+return { photographers: sortedPhotos };
 
-  return { photographers: photographersArray };
 };
 
 const mapDispatchToProps = (dispatch) => {

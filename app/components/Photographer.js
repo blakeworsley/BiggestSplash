@@ -1,5 +1,4 @@
 'use strict';
-
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -12,11 +11,12 @@ import {
   Linking,
   Dimensions
 } from 'react-native';
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import photographersContainer from '../containers/photographersContainer';
 import DataVisuals from './DataVisuals';
-import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
 let { height, width } = Dimensions.get('window');
+let CircleGraph = AnimatedCircularProgress;
 
 const link = (url) => {
   Linking.canOpenURL(url).then(supported => {
@@ -35,7 +35,7 @@ class Photographer extends Component {
       <View style={styles.container}>
         <ScrollView style={styles.scrollView}>
           <View style={styles.centered}>
-            <AnimatedCircularProgress
+            <CircleGraph
               size={220}
               width={10}
               fill={user.total_likes}
@@ -50,7 +50,7 @@ class Photographer extends Component {
                   />
                 )
               }
-            </AnimatedCircularProgress>
+            </CircleGraph>
             <View style={styles.visualView}>
               <Text style={styles.boldText}>{user.name}</Text>
               <Text style={styles.text}>{user.bio}</Text>
@@ -61,30 +61,20 @@ class Photographer extends Component {
                 <Text style={styles.textBio}>Portfolio: {user.portfolio_url}</Text>
               </TouchableHighlight>
               <Text style={styles.text}>Primary Photo Color: </Text>
-              <View style={{
-                backgroundColor: photographer.color,
-                height: 100,
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: width *0.8,
-                alignSelf: 'center',
-              }}>
-                <Text style={{marginTop: 80, alignSelf: 'center', justifyContent: 'center', height: 100}}>{photographer.color}</Text>
+              <View style={{backgroundColor: photographer.color, height: 100}}>
+                <Text style={styles.photoColor}>{photographer.color}</Text>
               </View>
-              <View style={{flex: 1, justifyContent: 'center'}}>
-                <Text style={styles.text}>Rated Photo:</Text>
-                <Image
-                  style={styles.thumbnail}
-                  source={{uri:`${photographer.urls.thumb}`}}
-                />
-              </View>
-            <DataVisuals photographer={photographer} />
+              <Text style={styles.text}>Rated Photo:</Text>
+              <Image
+                style={styles.thumbnail}
+                source={{uri:`${photographer.urls.thumb}`}}
+              />
+              <DataVisuals photographer={photographer} />
             </View>
             <View style={styles.circularProgressView}>
               <View style={styles.circle}>
                 <Text style={styles.text}>Likes</Text>
-                <AnimatedCircularProgress
+                <CircleGraph
                   size={75}
                   width={10}
                   fill={user.total_likes}
@@ -98,11 +88,11 @@ class Photographer extends Component {
                       </Text>
                     )
                   }
-                </AnimatedCircularProgress>
+                </CircleGraph>
                 </View>
                 <View style={styles.circle}>
                   <Text style={styles.text}>Total Photos</Text>
-                  <AnimatedCircularProgress
+                  <CircleGraph
                     size={75}
                     width={10}
                     fill={user.total_photos}
@@ -116,7 +106,7 @@ class Photographer extends Component {
                         </Text>
                       )
                     }
-                  </AnimatedCircularProgress>
+                  </CircleGraph>
                 </View>
               </View>
            </View>
@@ -162,8 +152,8 @@ const styles = StyleSheet.create({
   },
   img: {
     borderRadius: 100,
-    top: -210,
     height: 200,
+    top: -210,
     width: 200,
   },
   visualView: {
@@ -203,8 +193,12 @@ const styles = StyleSheet.create({
   },
   thumbnail: {
     height: 200,
-    width: 300,
-    marginLeft: -10,
+  },
+  photoColor: {
+    alignSelf: 'center',
+    flex: 1,
+    justifyContent: 'center',
+    paddingTop: 40,
   }
 });
 

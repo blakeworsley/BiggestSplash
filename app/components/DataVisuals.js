@@ -42,10 +42,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 5,
     height: 8,
-    marginRight: 5
+    marginRight: 5,
   },
   likes: {
-    backgroundColor: '#6743f5'
+    backgroundColor: '#6743f5',
   },
   totalPhotos: {
     backgroundColor: '#26996c'

@@ -12,8 +12,8 @@ import {
   Image,
   Dimensions
 } from 'react-native';
-import Photographer from './Photographer';
 
+import Photographer from './Photographer';
 import photographersContainer from '../containers/photographersContainer';
 import profileContainer from '../containers/profileContainer';
 
@@ -41,7 +41,6 @@ class Search extends Component {
       .then((response) => response.json())
       .then((responseData) => {
         getPhotographers(responseData.results);
-        console.log(responseData.results)
         if(responseData.results.length > 0) {
           Alert.alert(
             'Request Successful',
@@ -63,16 +62,15 @@ class Search extends Component {
           );
           console.log(error);
         })
-    .done();
-    this.setState({
-      search: ''
+        .done();
+      this.setState({
+        search: ''
     });
   }
 
   render() {
     let photographers = this.props.photographers;
     let user = this.props.user;
-    console.log(this.props);
     if(user) {
       return (
         <View style={styles.container}>
@@ -81,11 +79,12 @@ class Search extends Component {
               style={styles.input}
               autoCorrect={false}
               placeholder='Search by Location'
-              onChangeText={ search => this.setState({search}) }
-              value={ this.state.search }
+              onChangeText={search => this.setState({search})}
+              value={this.state.search}
             />
             <TouchableHighlight
               style={styles.submit}
+              underlayColor='#a4a2a2'
               onPress={() => {this.fetchPhotographerInfo()}}
             >
               <Text>Submit</Text>
@@ -93,7 +92,7 @@ class Search extends Component {
           </View>
 
           <ScrollView style={styles.photographerList}>
-            { photographers.length 
+            { photographers.length
               ? photographers.map((photographer, index) => {
                 return (
                   <TouchableHighlight
@@ -104,12 +103,7 @@ class Search extends Component {
                   onPress={() => {
                     this.toPhotographerProfile(index);
                   }}>
-                    <View style={{
-                      borderRadius: 10,
-                      flexDirection: 'row',
-                      height: 100,
-                      backgroundColor: '#f9f9f9',
-                    }}>
+                    <View style={styles.photographerCard}>
                       <View style={styles.photoView}>
                         <Image
                           style={styles.img}
@@ -127,7 +121,7 @@ class Search extends Component {
                   </TouchableHighlight>
                 )
               })
-              : <View style={{height: height*0.6, alignItems: 'center', justifyContent: 'center'}}>
+              : <View style={styles.instructions}>
                   <Text style={styles.boldText}>
                   Please Enter a City to Search for a Photographer
                   </Text>
@@ -184,9 +178,9 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   bio: {
-    padding: 10,
     flex: 2,
     justifyContent: 'center',
+    padding: 10,
   },
   boldText: {
     color: '#707070',
@@ -200,14 +194,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   rankView: {
+    alignItems: 'center',
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
   },
   photoView: {
+    alignItems: 'center',
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
   },
   rankText: {
     color: '#888899',
@@ -223,6 +217,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginLeft: 5,
     marginRight: 10,
+  },
+  photographerCard: {
+    backgroundColor: '#f9f9f9',
+    borderRadius: 10,
+    flexDirection: 'row',
+    height: 100,
+  },
+  instructions: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: height * 0.6
   }
 });
 

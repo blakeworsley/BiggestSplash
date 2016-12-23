@@ -80,7 +80,7 @@ class Search extends Component {
           );
           console.log(error);
         })
-        .done();
+      .done();
       this.setState({
         search: ''
     });
@@ -100,19 +100,20 @@ class Search extends Component {
               onChangeText={search => this.setState({search})}
               value={this.state.search}
             />
-            <TouchableHighlight
+            {this.state.animating === true ?
+              <ActivityIndicator
+                animating={this.state.animating}
+                style={styles.spinner}
+                size="large"
+              />
+            : <TouchableHighlight
               style={styles.submit}
               underlayColor='#a4a2a2'
               onPress={() => {this.fetchPhotographerInfo()}}
-            >
+              >
               <Text>Submit</Text>
-            </TouchableHighlight>
+            </TouchableHighlight>}
           </View>
-          <ActivityIndicator
-            animating={this.state.animating}
-            style={[styles.centering, {height: 80}]}
-            size="large"
-          />
 
           <ScrollView style={styles.photographerList}>
             { photographers.length
@@ -146,7 +147,7 @@ class Search extends Component {
               })
              : <View style={styles.instructions}>
                  <Text style={styles.boldText}>
-                 Please Enter a City to Search for a Photographer
+                  Please Enter a City to Search for a Photographer
                  </Text>
                </View>
             }
@@ -238,6 +239,12 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 40,
     justifyContent: 'center',
+    marginLeft: 5,
+    marginRight: 10,
+  },
+  spinner: {
+    flex: 1,
+    height: 40,
     marginLeft: 5,
     marginRight: 10,
   },

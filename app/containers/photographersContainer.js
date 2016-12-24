@@ -12,17 +12,17 @@ photographers.map((picture) => {
   names.push(picture.user.name);
 });
 
-let uniqueNames = [ ]
-let uniquePhotos = [ ]
+let uniqueNames = [ ];
+let uniquePhotos = [ ];
 
 for (let i = 0; i < photosArray.length; i++) {
   if (!uniqueNames.includes(photosArray[i].user.name)) {
-    uniqueNames.push(photosArray[i].user.name)
-    uniquePhotos.push(photosArray[i])
+    uniqueNames.push(photosArray[i].user.name);
+    uniquePhotos.push(photosArray[i]);
   }
 }
 
-const sortedPhotos = uniquePhotos.sort((a,b) => b.user.total_likes - a.user.total_likes)
+const sortedPhotos = uniquePhotos.sort((a,b) => b.user.total_likes - a.user.total_likes);
 return { photographers: sortedPhotos };
 
 };

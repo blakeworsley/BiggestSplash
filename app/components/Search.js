@@ -58,8 +58,6 @@ class Search extends Component {
       .then((response) => response.json())
       .then((responseData) => {
         getPhotographers(responseData.results);
-        if(responseData.results.length > 0) {
-          this.hideLoaderIndicator();
           Alert.alert(
             'Request Successful',
             `There are ${responseData.results.length} photos in ${seachTerm}`,
@@ -67,7 +65,7 @@ class Search extends Component {
               { text: 'OK' },
             ]
           );
-        }
+        this.hideLoaderIndicator();
       })
       .catch((error) => {
         getPhotographers([]);
